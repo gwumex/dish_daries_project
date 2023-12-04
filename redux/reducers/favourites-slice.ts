@@ -14,15 +14,13 @@ type Dish = {
 const initialState = {
     isLoading: true,
     errMess: null,
-    favourites: {dishes:[] as Dish[]}
+    favourites: null
 };
 
 interface FavouritesState {
     isLoading: boolean;
     errMess: string | null;
-    favourites: {
-      dishes: Dish[];
-    };
+    favourites:null
   }
 
 const favouritesSlice = createSlice({
@@ -37,12 +35,12 @@ const favouritesSlice = createSlice({
         favouritesLoading: (state, action) => {
             state.isLoading = true;
             state.errMess = null;
-            state.favourites.dishes = [];
+            state.favourites = null;
         },
         favouritesFailed: (state, action) => {
             state.isLoading = false;
             state.errMess = action.payload;
-            state.favourites.dishes = [];
+            state.favourites = null;
           },
     }
 })

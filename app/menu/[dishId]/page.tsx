@@ -32,11 +32,11 @@ const DishWithId = () => {
   const comments = useSelector((state: RootState) => state.comments.comments);
   const comments_per_dish = comments.filter((comment) => comment.dish === dishId)
 
-  const favourites = useSelector((state: RootState) => state.favourites.favourites);
+  const favourites = useSelector((state: RootState) => state.favourites?.favourites);
   const auth = useSelector((state: RootState) => state.auth);
 
   const dish = dishes.dishes.find((d:Dish) => d._id === dishId) // Use the dishId from the URL to find the dish;
-  const favourite = favourites.dishes?.some((f:Dish) => f._id === dishId)
+  const favourite = favourites?.dishes?.some((f:Dish) => f._id === dishId)
 
   // Handle the case where the dish is not found
   if (!dish) {

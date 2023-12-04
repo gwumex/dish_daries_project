@@ -1,4 +1,4 @@
-// Favorites.tsx
+'use client'
 import React from 'react';
 import Link from 'next/link';
 import { baseUrl } from '../../shared/baseUrl';
@@ -62,7 +62,7 @@ const Favourites: React.FC<FavouritesProps> = ({ favourites, deleteFavourite }) 
         <h4>{favourites.errMess}</h4>
       </div>
     );
-  } else if (favourites.favourites.dishes.length > 0) {
+  } else if (favourites.favourites?.dishes.length > 0) {
     const favouriteDishes = favourites.favourites.dishes.map((dish) => {
       return (
         <div key={dish._id} className="col-12 mt-5">
@@ -70,7 +70,6 @@ const Favourites: React.FC<FavouritesProps> = ({ favourites, deleteFavourite }) 
         </div>
       );
     });
-
 
 
     return (
