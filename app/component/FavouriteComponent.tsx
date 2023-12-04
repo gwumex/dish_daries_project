@@ -3,6 +3,8 @@ import React from 'react';
 import Link from 'next/link';
 import { baseUrl } from '../../shared/baseUrl';
 import { Loading } from './LoadingComponent';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
 
 interface Dish {
   _id: string;
@@ -18,9 +20,11 @@ interface Dish {
 interface RenderMenuItemProps {
   dish: Dish;
   deleteFavourite: (id: string) => void;
+  dispatch: any
 }
 
-const RenderMenuItem: React.FC<RenderMenuItemProps> = ({ dish, deleteFavourite }) => {
+
+const RenderMenuItem: React.FC<RenderMenuItemProps> = ({ dish, deleteFavourite, dispatch }) => {
   return (
     <li className="media mb-4">
       <img className="mr-3" src={baseUrl + dish.image} alt={dish.name} />
@@ -30,7 +34,7 @@ const RenderMenuItem: React.FC<RenderMenuItemProps> = ({ dish, deleteFavourite }
         <button
           className="text-red-500 border border-red-500 hover:bg-red-500 hover:text-white active:bg-red-600 font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
           type="button"
-          onClick={() => deleteFavourite(dish._id)}
+          onClick={() => dispatch(deleteFavourite(dish._id))}
         >
           <span className="fa fa-times"></span>
         </button>
@@ -49,6 +53,7 @@ interface FavouritesProps {
 }
 
 const Favourites: React.FC<FavouritesProps> = ({ favourites, deleteFavourite }) => {
+  const dispatch: AppDispatch = useDispatch();
   if (favourites.isLoading) {
     return <Loading />;
   } else if (favourites.errMess) {
@@ -61,18 +66,21 @@ const Favourites: React.FC<FavouritesProps> = ({ favourites, deleteFavourite }) 
     const favouriteDishes = favourites.favourites.dishes.map((dish) => {
       return (
         <div key={dish._id} className="col-12 mt-5">
-          <RenderMenuItem dish={dish} deleteFavourite={deleteFavourite} />
+          <RenderMenuItem dish={dish} deleteFavourite={deleteFavourite} dispatch={dispatch}/>
         </div>
       );
     });
 
+
+
     return (
+      
       <div className="container mx-auto mt-3">
         <nav className="flex" aria-label="breadcrumb">
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
               <Link href="/home">
-                <a>Home</a>
+                Home
               </Link>
             </li>
             <li className="breadcrumb-item active" aria-current="page">

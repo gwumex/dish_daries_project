@@ -10,7 +10,7 @@ const page = () => {
     const dispatch: AppDispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchFavourites)
-    }, [dispatch])
+    }, [])
 
     const favourites = useSelector((state: RootState) => state.favourites);
     

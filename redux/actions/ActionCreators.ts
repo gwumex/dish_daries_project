@@ -255,7 +255,6 @@ export const logoutUser = () => (dispatch: any) => {
  */
 
 export const postFavourite = (dishId: string) => (dispatch: (arg0: { type: string; payload: any; }) => void) => {
-    console.log("postFavourite");
     const bearer = 'Bearer ' + localStorage.getItem('token');
 
     return fetch(baseUrl + 'favourites/' + dishId, {
@@ -347,7 +346,6 @@ export const fetchFavourites = () => (dispatch: (arg0: { type: string; payload?:
     })
     .then(response => response.json())
     .then(favourites => {
-        console.log(favourites);
         dispatch(addFavourites(favourites))})
     .catch(error => dispatch(favouritesFailed(error.message)));
 }

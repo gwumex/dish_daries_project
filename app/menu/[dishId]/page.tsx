@@ -30,6 +30,8 @@ const DishWithId = () => {
 
   const dishes = useSelector((state: RootState) => state.dishes);
   const comments = useSelector((state: RootState) => state.comments.comments);
+  const comments_per_dish = comments.filter((comment) => comment.dish === dishId)
+
   const favourites = useSelector((state: RootState) => state.favourites.favourites);
   const auth = useSelector((state: RootState) => state.auth);
 
@@ -50,7 +52,7 @@ const DishWithId = () => {
           errMess={dishes.errMess} 
           favourite={favourite} 
           postFavourite={postFavourite} 
-          comments={comments} 
+          comments={comments_per_dish} 
           postComment={postComment} />
           :
     <DishDetail dish={dish}  
