@@ -11,43 +11,48 @@ import {  loginRequest,
     logoutSuccess,
     setUser} from '../reducers/auth-slice'
 import { setLoginModal, setSignUpModal } from '../reducers/other-slice';
+import { handleError } from '@/app/hooks';
+import { AppDispatch } from '../store';
+import { Creds, Comment } from '@/app/type';
 
-/**
- * 
- * @returns login user
+/***
+ * @function loginWithToken
+ * @param {token} token - auth token from local storage
+ * @returns {Promise<any>} - A promise that resolves with the response JSON if successful.
  */
-export const loginWithToken = (token: any) => (dispatch: any)=> {
+export const loginWithToken = (token: any) => async (dispatch: any)=> {
 
-     return fetch(baseUrl + 'users/checkJWTtoken', 
-     {
-        method: 'GET',
-        headers: { 
-            'Content-Type':'application/json',
-            'Authorization': `Bearer ${token}`,
+     try {
+        const response = await fetch(baseUrl + 'users/checkJWTtoken',
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+        if (!response.ok) {
+            throw new Error('Token validation failed');
+        }
+        const data = await response.json();
+        dispatch(loginSuccess(token));
+        dispatch(setUser(data.user));
 
-        },
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Token validation failed');
-      }
-      return response.json();
-    })
-    .then(data => {
-      dispatch(loginSuccess(token));
-      dispatch(setUser(data.user));
-
-      // Handle the response data
-      console.log(data);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+        // Handle the response data
+        console.log(data);
+    } catch (error) {
+        console.error('Error:', error);
+    }
 }
 
-export const loginUser = (creds: any) => (dispatch: any) => {
-    // We dispatch requestLogin to kickoff the call to the API
-    dispatch(loginRequest(creds))
+
+/***
+ * @function loginUser
+ * @param {Creds} creds - username and password
+ * @returns {Promise<any>} - A promise that resolves with the response JSON if successful.
+ */
+export const loginUser = (creds: Creds) => async (dispatch: AppDispatch) => {
+    dispatch(loginRequest(creds));
 
     return fetch(baseUrl + 'users/login', {
         method: 'POST',
@@ -58,40 +63,41 @@ export const loginUser = (creds: any) => (dispatch: any) => {
     })
     .then(response => {
         if (response.ok) {
-            return response;
+            return response.json();
         } else {
-            var error:any = new Error('Error ' + response.status + ': ' + response.statusText);
-            error.response = response;
-            throw error;
+
+            return handleError(response)
+
         }
-        },
-        error => {
-            throw error;
-        })
-    .then(response => response.json())
+    })
     .then(response => {
         if (response.success) {
-            // If login was successful, set the token in local storage
             localStorage.setItem('token', response.token);
             dispatch(setUser({"username": creds.username}));
-            // Dispatch the success action
             dispatch(fetchFavourites());
             dispatch(loginSuccess(response));
             dispatch(setLoginModal());
-
-        }
-        else {
-            var error:any = new Error('Error ' + response.status);
-            error.response = response;
-            throw error;
+        } else {
+            // If the API response includes an unsuccessful login status
+            throw new Error(response.status);
         }
     })
-    .catch(error => dispatch(loginFailure(error.message)))
+    .catch(error => {
+        // Dispatching login failure with the error message
+        dispatch(loginFailure(error.message));
+    });
 };
-export const signUpUser = (creds: any) => (dispatch: any) => {
+
+
+/***
+ * @function signUpUser
+ * @param {Creds} creds - userdetails
+ * @returns {Promise<any>} - A promise that resolves with the response JSON if successful.
+ */
+
+export const signUpUser = (creds: Creds) => (dispatch: AppDispatch) => {
     // We dispatch requestLogin to kickoff the call to the API
         dispatch(loginRequest(creds))
-        console.log("hello");
 
     return fetch(baseUrl + 'users/signup', {
         method: 'POST',
@@ -104,9 +110,7 @@ export const signUpUser = (creds: any) => (dispatch: any) => {
         if (response.ok) {
             return response;
         } else {
-            var error:any = new Error('Error ' + response.status + ': ' + response.statusText);
-            error.response = response;
-            throw error;
+            return handleError(response)
         }
         },
         error => {
@@ -141,10 +145,10 @@ export const logoutUser = () => (dispatch: any) => {
 
 
 /**
- * @function post comment on dish 
+ * @function postComment comment on dish 
  * @returns comment
  */
-export const postComment = (dishId: any, rating: any, comment: any) => (dispatch: (arg0: { type: string; payload: any; }) => any) => {
+export const postComment = (dishId: any, rating: any, comment: any) => (dispatch: AppDispatch) => {
 
     const newComment = {
         dish: dishId,
@@ -169,9 +173,7 @@ export const postComment = (dishId: any, rating: any, comment: any) => (dispatch
             return response;
         }
         else {
-            var error: any = new Error('Error ' + response.status + ': ' + response.statusText);
-            error.response = response;
-            throw error;
+            return handleError(response)
         }
     },
     error => {
@@ -189,7 +191,7 @@ export const postComment = (dishId: any, rating: any, comment: any) => (dispatch
  * @returns dishes list
  */
 
-export const fetchDishes = () => (dispatch : any) => {
+export const fetchDishes = () => (dispatch : AppDispatch) => {
     dispatch(dishesLoading(true));
 
     return fetch(baseUrl + 'dishes')
@@ -216,7 +218,7 @@ export const fetchDishes = () => (dispatch : any) => {
  * @returns comments on dish
  */
 
-export const fetchComments = () => (dispatch: (arg0: { type: string; payload: any; }) => any) => {
+export const fetchComments = () => (dispatch: AppDispatch) => {
     return fetch(baseUrl + 'comments')
         .then(response => {
             if (response.ok) {
@@ -241,7 +243,7 @@ export const fetchComments = () => (dispatch: (arg0: { type: string; payload: an
  * 
  * @returns promotion list
  */
-export const fetchPromos = () => (dispatch: (arg0: { type: string; payload?: any; }) => void) => {
+export const fetchPromos = () => (dispatch: AppDispatch) => {
     dispatch(promosLoading(true));
 
     return fetch(baseUrl + 'promotions')
@@ -268,7 +270,7 @@ export const fetchPromos = () => (dispatch: (arg0: { type: string; payload?: any
  * 
  * @returns leaders list
  */
-export const fetchLeaders = () => (dispatch: (arg0: { type: string; payload?: any; }) => void) => {
+export const fetchLeaders = () => (dispatch: AppDispatch) => {
     
     dispatch(leadersLoading(true));
 
@@ -295,7 +297,7 @@ export const fetchLeaders = () => (dispatch: (arg0: { type: string; payload?: an
  * 
  * @returns post feedback
  */
-export const postFeedback = (feedback: any) => (dispatch: any) => {
+export const postFeedback = (feedback: any) => (dispatch: AppDispatch) => {
         
     return fetch(baseUrl + 'feedback', {
         method: "POST",
@@ -329,7 +331,7 @@ export const postFeedback = (feedback: any) => (dispatch: any) => {
  * @returns add dish to favourite list
  */
 
-export const postFavourite = (dishId: string) => (dispatch: (arg0: { type: string; payload: any; }) => void) => {
+export const postFavourite = (dishId: string) => (dispatch: AppDispatch) => {
     const bearer = 'Bearer ' + localStorage.getItem('token');
 
     return fetch(baseUrl + 'favourites/' + dishId, {
@@ -363,7 +365,7 @@ export const postFavourite = (dishId: string) => (dispatch: (arg0: { type: strin
  * @returns deletes favourites dishes from list
  */
 
-export const deleteFavourite = (dishId: string) => (dispatch: (arg0: { type: string; payload: any; }) => void) => {
+export const deleteFavourite = (dishId: string) => (dispatch: AppDispatch) => {
 
     const bearer = 'Bearer ' + localStorage.getItem('token');
 
@@ -395,7 +397,7 @@ export const deleteFavourite = (dishId: string) => (dispatch: (arg0: { type: str
  * @returns favourites dishes
  */
 
-export const fetchFavourites = () => (dispatch: (arg0: { type: string; payload?: any; }) => void) => {
+export const fetchFavourites = () => (dispatch: AppDispatch) => {
     dispatch(favouritesLoading(true));
 
     const bearer = 'Bearer ' + localStorage.getItem('token');

@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { signUpUser,  } from '@/redux/actions/ActionCreators';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../../redux/store'
@@ -7,6 +7,7 @@ import { setSignUpModal, setLoginModal } from '@/redux/reducers/other-slice';
 
 
 const SignUpModal = () => {
+    const loginError = useSelector((state: RootState) => state.auth.errMess); // Access login error from Redux store
     const other = useSelector((state: RootState) => state.other);
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
@@ -38,13 +39,14 @@ const SignUpModal = () => {
   return (
 <div className={`fixed inset-0 bg-deep-blue bg-opacity-50 z-50 ${other.isSignUpModalOpen? 'flex' : 'hidden'}`} onClick={toggleModal}>
   <div className='relative p-4 w-full max-w-md m-auto flex-col flex bg-white rounded-lg shadow-lg' onClick={(e) => e.stopPropagation()}>
-    <div className='flex justify-between items-center border-b pb-3'>
+    <div className='flex justify-between items-center border-b p-6 pb-3'>
       <h2 className="text-xl font-bold text-gray-700">Register</h2>
       <button className='text-gray-600 text-xl font-semibold' onClick={toggleModal}>
         X
       </button>
     </div>
     <div className="p-6 flex flex-col justify-center">
+      
       <form onSubmit={handleSignUp} className="space-y-4">
         <div className='flex flex-col'>
           <label htmlFor="username" className="text-md font-semibold text-gray-600">Username</label>
@@ -68,11 +70,24 @@ const SignUpModal = () => {
         </div>
         <button type="submit" className="w-full mt-4 bg-muted-orange text-white py-2 rounded-md hover:bg-deep-blue transition-colors duration-200">Register</button>
       </form>
+      {loginError && (
+            <div className="text-red-500 p-2 text-center">
+              {loginError} {/* Display login error */}
+            </div>
+          )}
+      <div className='pt-4'>
+            <span >
+            Have an Account?
+            </span>
+            <u>
+              <b>
+                <em className='hover:text-muted-orange'><button onClick={toggleLogin} className='ml-2'>Login</button>
+                </em>
+              </b>
+            </u>
+
+          </div>
     </div>
-    <button onClick={toggleLogin}>Have an Account? <b>
-      <u><em className='hover:text-muted-orange'>Login</em></u>
-      </b>
-      </button>
   </div>
 </div>
 

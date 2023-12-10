@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { CommentsState } from "@/app/type";
 
-const initialState = {
+const initialState: CommentsState = {
     isLoading: true,
     errMess: null,
     comments: []

@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { LeadersState } from "@/app/type";
 
 const initialState = {
     isLoading: true,

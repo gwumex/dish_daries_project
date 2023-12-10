@@ -5,21 +5,9 @@ import { Loading } from '../component/LoadingComponent';
 import { baseUrl } from '../../shared/baseUrl';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store'; // Import the type for your root state
+import { Dish, MenuProps } from '../type';
 
 
-interface Dish {
-  _id: string;
-  image: string;
-  name: string;
-}
-
-interface MenuProps {
-  dishes: {
-    isLoading: boolean;
-    errMess: string | null;
-    dishes: Dish[];
-  };
-}
 
 
 function RenderMenuItem({ dish }: { dish: Dish }) {

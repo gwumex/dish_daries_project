@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { DishesState } from "@/app/type";
 
-const initialState = {
+const initialState: DishesState = {
     isLoading: true,
     errMess: null,
     dishes: []

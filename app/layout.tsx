@@ -7,7 +7,7 @@ import Footer from './component/FooterComponent'
 import Navigation from './component/navigation'
 import LoginModal from './component/LoginModal'
 import SignUpModal from './component/SignUpModal'
-import InitiateLoad from './component/initiateLoad'
+import InitiateLoad from './component/InitiateLoad'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -27,7 +27,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} min-h-full flex flex-col justify-around`}>
         <InitiateLoad/>
-      <Navigation/>
+      <Header/>
       <div className='mt-20 min-h-[70vh]'>
         {children}
       </div>

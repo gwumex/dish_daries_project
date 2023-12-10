@@ -1,27 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { FavouritesState } from "@/app/type";
 
-type Dish = {
-    _id: string;
-    name: string;
-    image: string;
-    category: string;
-    label: string;
-    price: string;
-    featured: boolean;
-    description: string;
-  };
-
-const initialState = {
+const initialState: FavouritesState = {
     isLoading: true,
     errMess: null,
-    favourites: null
+    favourites: {dishes: []}
 };
-
-interface FavouritesState {
-    isLoading: boolean;
-    errMess: string | null;
-    favourites:null
-  }
 
 const favouritesSlice = createSlice({
     name: 'favourites',
@@ -35,12 +19,11 @@ const favouritesSlice = createSlice({
         favouritesLoading: (state, action) => {
             state.isLoading = true;
             state.errMess = null;
-            state.favourites = null;
         },
         favouritesFailed: (state, action) => {
             state.isLoading = false;
             state.errMess = action.payload;
-            state.favourites = null;
+            state.favourites.dishes = [];
           },
     }
 })

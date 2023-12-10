@@ -5,17 +5,8 @@ import { fetchComments, fetchFavourites, postComment, postFavourite } from '../.
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'next/navigation';
 import { RootState, AppDispatch } from '../../../redux/store'; // Import the type for your root state
+import { Dish } from '@/app/type';
 
-interface Dish {
-  _id: string;
-  name: string;
-  image: string;
-  category: string;
-  label: string;
-  price: string;
-  featured: boolean;
-  description: string;
-}
 const DishWithId = () => {
   const dispatch: AppDispatch = useDispatch();
 
@@ -26,7 +17,7 @@ const DishWithId = () => {
     // Fetch dishes, comments, and favorites if they are not already in the state
     dispatch(fetchComments());
     dispatch(fetchFavourites());
-  }, []);
+  }, [dispatch]);
 
   const dishes = useSelector((state: RootState) => state.dishes);
   const comments = useSelector((state: RootState) => state.comments.comments);

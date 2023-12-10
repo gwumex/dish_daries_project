@@ -5,23 +5,7 @@ import { baseUrl } from '../../shared/baseUrl';
 import { Loading } from './LoadingComponent';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
-
-interface Dish {
-  _id: string;
-  name: string;
-  image: string;
-  category: string;
-  label: string;
-  price: string;
-  featured: boolean;
-  description: string;
-}
-
-interface RenderMenuItemProps {
-  dish: Dish;
-  deleteFavourite: (id: string) => void;
-  dispatch: any
-}
+import { RenderMenuItemProps, FavouritesProps} from '../type';
 
 
 const RenderMenuItem: React.FC<RenderMenuItemProps> = ({ dish, deleteFavourite, dispatch }) => {
@@ -36,21 +20,13 @@ const RenderMenuItem: React.FC<RenderMenuItemProps> = ({ dish, deleteFavourite, 
           type="button"
           onClick={() => dispatch(deleteFavourite(dish._id))}
         >
-          <span className="fa fa-times"></span>
+          <span className="fa fa-times"> X</span>
         </button>
       </div>
     </li>
   );
 };
 
-interface FavouritesProps {
-  favourites: {
-    isLoading: boolean;
-    errMess: string | null;
-    favourites: { dishes: Dish[] };
-  };
-  deleteFavourite: (id: string) => void;
-}
 
 const Favourites: React.FC<FavouritesProps> = ({ favourites, deleteFavourite }) => {
   const dispatch: AppDispatch = useDispatch();

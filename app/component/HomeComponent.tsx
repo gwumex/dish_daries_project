@@ -3,18 +3,7 @@ import { Loading } from './LoadingComponent';
 import { baseUrl } from '../../shared/baseUrl';
 import './Home.css'; // Make sure this import points to the correct file path
 import HeroComponent from './HeroComponent';
-interface Item {
-  image: string;
-  name: string;
-  designation?: string;
-  description: string;
-}
-
-interface RenderCardProps {
-  item: Item;
-  isLoading: boolean;
-  errMess: string | null;
-}
+import { HomeProps, RenderCardProps } from '../type';
 
 function RenderCard({ item, isLoading, errMess }: RenderCardProps) {
   if (isLoading) {
@@ -35,17 +24,7 @@ function RenderCard({ item, isLoading, errMess }: RenderCardProps) {
   }
 }
 
-interface HomeProps {
-  dish: Item;
-  dishesLoading: boolean;
-  dishesErrMess: string | null;
-  promotion: Item;
-  promosLoading: boolean;
-  promosErrMess: string | null;
-  leader: Item;
-  leaderLoading: boolean;
-  leaderErrMess: string | null;
-}
+
 
 const HomeComponent: React.FC<HomeProps> = ({ dish, dishesLoading, dishesErrMess, promotion, promosLoading, promosErrMess, leader, leaderLoading, leaderErrMess }) => {
   return (

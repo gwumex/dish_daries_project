@@ -3,10 +3,14 @@ import Link from "next/link";
 import Logo from "./Logo";
 import Button from "./Button";
 import Image from "next/image";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 const linkStyle = "hover:text-muted-orange md:text-lg"
 
 const Navbar = ({ toggle }: { toggle: () => void }) => {
+  const auth = useSelector((state: RootState) => state.auth.isAuthenticated); // Access login error from Redux store
+
   return (
     <>
       <div className="w-full h-20 fixed bg-deep-blue top-0 text-ivory-white z-50 p">
@@ -55,11 +59,13 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
                   <p className={linkStyle}>Contacts</p>
                 </Link>
               </li>
-              <li >
-                <Link href="/favourites">
-                  <p className={linkStyle}>Favourites</p>
-                </Link>
-              </li>
+              {auth && (
+        <li className={linkStyle}>
+        <Link href="/favourites">
+            Favourites
+        </Link>
+        </li >
+    )}
             </ul>
             <div className="hidden md:block">
               <Button />

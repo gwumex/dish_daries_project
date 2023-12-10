@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { PromotionState } from '@/app/type';
 
-const initialState = {
+const initialState: PromotionState = {
   isLoading: true,
   errMess: null,
   promotions: [],

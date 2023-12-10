@@ -1,9 +1,5 @@
+import { OtherState } from '@/app/type';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-interface OtherState {
-    isLoginModalModalOpen: boolean
-    isSignUpModalOpen: boolean
-}
 
 const initialState: OtherState = {
     isLoginModalModalOpen: false,

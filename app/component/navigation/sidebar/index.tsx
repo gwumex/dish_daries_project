@@ -1,5 +1,7 @@
 import Link from "next/link";
 import Button from "../navbar/Button";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 const Sidebar = ({
   isOpen,
@@ -8,7 +10,12 @@ const Sidebar = ({
   isOpen: boolean;
   toggle: () => void;
 }): JSX.Element => {
+
+  const auth = useSelector((state: RootState) => state.auth.isAuthenticated); // Access login error from Redux store
+  const linkStyle = "hover:text-muted-orange md:text-lg"
+
   return (
+    
     <>
       <div
         className="sidebar-container fixed w-full h-full overflow-hidden justify-center bg-white grid pt-[120px] left-0 z-10"
@@ -16,6 +23,7 @@ const Sidebar = ({
           opacity: `${isOpen ? "1" : "0"}`,
           top: ` ${isOpen ? "0" : "-100%"}`,
         }}
+        
       >
         <button className="absolute right-0 p-5 " onClick={toggle}>
           {/* Close icon */}
@@ -33,27 +41,29 @@ const Sidebar = ({
           </svg>
         </button>
         <ul className="text-center leading-relaxed text-xl flex gap-6 flex-col">
-              <li className="hover:bg-muted-orange">
-                <Link href="/about">
+              <li className={linkStyle} >
+                <Link href="/about" onClick={toggle}>
                   About Us
                 </Link>
               </li>
-              <li className="hover:bg-muted-orange">
-                <Link href="/menu">
+              <li className={linkStyle}>
+                <Link href="/menu" onClick={toggle}>
                   Menu
                 </Link>
               </li>
-              <li >
-                <Link href="/contact">
+              <li className={linkStyle}>
+                <Link href="/contact" onClick={toggle}>
                   Contacts
                 </Link>
-              </li>
-              <li className="hover:text-muted-orange">
-                <Link href="/favourites">
-                  Favourites
-                </Link>
               </li >
-            <div className="">
+              {auth && (
+        <li className={linkStyle}>
+        <Link href="/favourites" onClick={toggle}>
+            Favourites
+        </Link>
+        </li >
+    )}
+            <div className="" onClick={toggle}>
               <Button />
             </div>
         </ul>

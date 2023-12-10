@@ -1,21 +1,10 @@
 "use client";
-import React, { useEffect } from 'react';
+import React from 'react';
 import HomeComponent from './component/HomeComponent';
 import { useSelector, useDispatch } from 'react-redux';
 import { lusitana } from './fonts';
 import { RootState, AppDispatch } from '../redux/store'; // Import the type for your root state
-
-
-type Dish = {
-  _id: string;
-  name: string;
-  image: string;
-  category: string;
-  label: string;
-  price: string;
-  featured: boolean;
-  description: string;
-};
+import { Dish, Promos } from './type';
 
 export default function HomePage() {
 
@@ -27,7 +16,9 @@ export default function HomePage() {
     label: "test",
     price: "test",
     featured: true,
-    description: "test"
+    description: "test",
+    likes: 0,
+    no_of_comments: 0
   } 
 
   // Access state directly from the Redux store using typed selectors
@@ -48,7 +39,7 @@ export default function HomePage() {
       dish={dishes.find((dish: Dish) => dish.featured) || value}
       dishesLoading={dishesLoading}
       dishesErrMess={dishesErrMess}
-      promotion={promotions.find((promo: Dish) => promo.featured) || value}
+      promotion={promotions.find((promo: Promos) => promo.featured) || value}
       promosLoading={promosLoading}
       promosErrMess={promosErrMess}
       leader={leaders.find((leader: Dish) => leader.featured) || value}

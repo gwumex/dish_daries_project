@@ -6,18 +6,7 @@ import './About.css';
 import { baseUrl } from '../../shared/baseUrl';
 import { Loading } from '../component/LoadingComponent';
 // Define the types for the leader's properties
-interface Leader {
-  _id: string;
-  name: string;
-  image: string;
-  designation: string;
-  description: string;
-}
-
-// Define the props for the RenderLeader component
-interface RenderLeaderProps {
-  leader: Leader;
-}
+import {RenderLeaderProps, LeaderListProps } from '../type';
 
 const RenderLeader: React.FC<RenderLeaderProps> = ({leader}) => {
 
@@ -33,12 +22,6 @@ const RenderLeader: React.FC<RenderLeaderProps> = ({leader}) => {
   );
 };
 
-// Define the props for the LeaderList component
-interface LeaderListProps {
-  leaders: Leader[];
-  isLoading: boolean;
-  errMess: string | null;
-}
 
 const LeaderList: React.FC<LeaderListProps> = ({ leaders, isLoading, errMess }) => {
   if (isLoading) {
@@ -57,13 +40,7 @@ const LeaderList: React.FC<LeaderListProps> = ({ leaders, isLoading, errMess }) 
 };
 
 // Define the props for the About component
-interface AboutProps {
-  leaders: {
-    isLoading: boolean;
-    errMess: string | null;
-    leaders: Leader[];
-  };
-}
+
 
 const About = () => {
   const leaders = useSelector((state: RootState) => state.leaders);
