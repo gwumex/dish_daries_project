@@ -10,9 +10,6 @@ import LoginModal from '../../LoginModal';
 
 
 const Button = () => {
-  const other = useSelector((state: RootState) => state.other);
-  const usernameRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
   const auth = useSelector((state: RootState) => state.auth);
   const dispatch: AppDispatch = useDispatch();
 
@@ -20,11 +17,9 @@ const Button = () => {
     dispatch(setLoginModal());
   }
 
-
   const handleLogout = () => {
     dispatch(logoutUser());
   };
-
 
   return (
     <>
@@ -35,8 +30,12 @@ const Button = () => {
       </button>
       :
       <div className="flex items-center flex-col md:flex-row justify-center">
-        <p className="mr-3"></p>
-          <button className="fa fa-sign-out fa-lg md:mr-6 uppercase">{auth.user.username ? auth.user.username : null}</button>
+          <button className="fa fa-sign-out fa-lg md:mr-6 uppercase">
+            <Link href="/profile">
+            {auth.user.username ? auth.user.username : null}
+
+            </Link>
+            </button>
         <button onClick={handleLogout} className='bg-muted-orange hover:bg-charcoal-gray text-white py-2 px-8 rounded'>
           {auth.isLoading ? <Loading/> : "Logout"}
         </button>

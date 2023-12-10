@@ -11,6 +11,13 @@ export interface Leader {
     image: string;
     featured: boolean
   }
+export interface User {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    admin: boolean;
+    username: string;
+  }
   
        /**
     * 

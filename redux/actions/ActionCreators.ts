@@ -35,11 +35,11 @@ export const loginWithToken = (token: any) => async (dispatch: any)=> {
             throw new Error('Token validation failed');
         }
         const data = await response.json();
+        console.log(data);
         dispatch(loginSuccess(token));
         dispatch(setUser(data.user));
 
         // Handle the response data
-        console.log(data);
     } catch (error) {
         console.error('Error:', error);
     }
@@ -51,42 +51,40 @@ export const loginWithToken = (token: any) => async (dispatch: any)=> {
  * @param {Creds} creds - username and password
  * @returns {Promise<any>} - A promise that resolves with the response JSON if successful.
  */
-export const loginUser = (creds: Creds) => async (dispatch: AppDispatch) => {
-    dispatch(loginRequest(creds));
 
-    return fetch(baseUrl + 'users/login', {
-        method: 'POST',
-        headers: { 
-            'Content-Type':'application/json' 
-        },
-        body: JSON.stringify(creds)
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
+export  const loginUser = (creds: any) => async (dispatch: AppDispatch) => {
+    dispatch(loginRequest());
+    try {
+        const response = await fetch(baseUrl + 'users/login',
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(creds)
 
-            return handleError(response)
-
+        });
+        console.log(response);
+        if (!response.ok){
+            return await handleError(response)
         }
-    })
-    .then(response => {
-        if (response.success) {
-            localStorage.setItem('token', response.token);
-            dispatch(setUser({"username": creds.username}));
+
+        const data = await response.json()
+        console.log(data);
+        if (data.success) {
+            localStorage.setItem('token', data.token);
+            dispatch(setUser(data.user));
             dispatch(fetchFavourites());
-            dispatch(loginSuccess(response));
+            dispatch(loginSuccess(data.token));
             dispatch(setLoginModal());
         } else {
-            // If the API response includes an unsuccessful login status
-            throw new Error(response.status);
+            throw new Error(data.status);
         }
-    })
-    .catch(error => {
-        // Dispatching login failure with the error message
+
+    } catch (error) {
         dispatch(loginFailure(error.message));
-    });
-};
+    }
+}
 
 
 /***
@@ -97,7 +95,7 @@ export const loginUser = (creds: Creds) => async (dispatch: AppDispatch) => {
 
 export const signUpUser = (creds: Creds) => (dispatch: AppDispatch) => {
     // We dispatch requestLogin to kickoff the call to the API
-        dispatch(loginRequest(creds))
+        dispatch(loginRequest())
 
     return fetch(baseUrl + 'users/signup', {
         method: 'POST',
@@ -121,9 +119,9 @@ export const signUpUser = (creds: Creds) => (dispatch: AppDispatch) => {
         if (response.success) {
             // If login was successful, set the token in local storage
             localStorage.setItem('token', response.token);
-            dispatch(setUser({"username": creds.username}));
             // Dispatch the success action
             dispatch(loginSuccess(response));
+            dispatch(setUser({"username": creds.username}));
             dispatch(setSignUpModal());
             dispatch(fetchFavourites());
         }
