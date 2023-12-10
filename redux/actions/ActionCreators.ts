@@ -10,6 +10,7 @@ import {  loginRequest,
     logoutRequest,
     logoutSuccess,
     setUser} from '../reducers/auth-slice'
+import { setLoginModal, setSignUpModal } from '../reducers/other-slice';
 
 /**
  * 
@@ -73,10 +74,11 @@ export const loginUser = (creds: any) => (dispatch: any) => {
             // If login was successful, set the token in local storage
             localStorage.setItem('token', response.token);
             dispatch(setUser({"username": creds.username}));
-
             // Dispatch the success action
             dispatch(fetchFavourites());
             dispatch(loginSuccess(response));
+            dispatch(setLoginModal());
+
         }
         else {
             var error:any = new Error('Error ' + response.status);
@@ -116,10 +118,10 @@ export const signUpUser = (creds: any) => (dispatch: any) => {
             // If login was successful, set the token in local storage
             localStorage.setItem('token', response.token);
             dispatch(setUser({"username": creds.username}));
-
             // Dispatch the success action
-            dispatch(fetchFavourites());
             dispatch(loginSuccess(response));
+            dispatch(setSignUpModal());
+            dispatch(fetchFavourites());
         }
         else {
             var error:any = new Error('Error ' + response.status);

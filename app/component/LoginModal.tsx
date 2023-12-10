@@ -27,7 +27,6 @@ const LoginModal = () => {
                 username: usernameRef.current.value,
                 password: passwordRef.current.value,
             }));
-            dispatch(setLoginModal());
         }
     
       };
