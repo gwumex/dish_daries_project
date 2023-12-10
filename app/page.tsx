@@ -2,10 +2,8 @@
 import React, { useEffect } from 'react';
 import HomeComponent from './component/HomeComponent';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchDishes, fetchPromos, fetchLeaders, fetchFavourites } from '../redux/actions/ActionCreators';
-import { RootState, AppDispatch } from '../redux/store'; // Import the type for your root state
-import { loginSuccess, setUser } from '../redux/reducers/auth-slice';
 import { lusitana } from './fonts';
+import { RootState, AppDispatch } from '../redux/store'; // Import the type for your root state
 
 
 type Dish = {
@@ -31,28 +29,7 @@ export default function HomePage() {
     featured: true,
     description: "test"
   } 
-  const dispatch: AppDispatch = useDispatch();
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-
-    if (token) {
-      dispatch(loginSuccess(token));
-      // try {
-      //   const user = 
-      //   dispatch(setUser(user));
-      // } catch (error) {
-      //   console.error("Failed to parse user credentials", error);
-      // }
-    }
-
-
-    dispatch(fetchPromos());
-    dispatch(fetchLeaders());
-    dispatch(fetchDishes()); // Make sure to dispatch fetchDishes
-
-    // If you want this effect to run only once on mount, you should pass an empty dependency array.
-  }, [dispatch]); 
   // Access state directly from the Redux store using typed selectors
   const dishes = useSelector((state: RootState) => state.dishes.dishes);
   const promotions = useSelector((state: RootState) => state.promotions.promotions);

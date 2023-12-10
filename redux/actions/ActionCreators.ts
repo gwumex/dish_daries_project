@@ -12,6 +12,133 @@ import {  loginRequest,
     setUser} from '../reducers/auth-slice'
 
 /**
+ * 
+ * @returns login user
+ */
+export const loginWithToken = (token: any) => (dispatch: any)=> {
+
+     return fetch(baseUrl + 'users/checkJWTtoken', 
+     {
+        method: 'GET',
+        headers: { 
+            'Content-Type':'application/json',
+            'Authorization': `Bearer ${token}`,
+
+        },
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Token validation failed');
+      }
+      return response.json();
+    })
+    .then(data => {
+      dispatch(loginSuccess(token));
+      dispatch(setUser(data.user));
+
+      // Handle the response data
+      console.log(data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+
+export const loginUser = (creds: any) => (dispatch: any) => {
+    // We dispatch requestLogin to kickoff the call to the API
+    dispatch(loginRequest(creds))
+
+    return fetch(baseUrl + 'users/login', {
+        method: 'POST',
+        headers: { 
+            'Content-Type':'application/json' 
+        },
+        body: JSON.stringify(creds)
+    })
+    .then(response => {
+        if (response.ok) {
+            return response;
+        } else {
+            var error:any = new Error('Error ' + response.status + ': ' + response.statusText);
+            error.response = response;
+            throw error;
+        }
+        },
+        error => {
+            throw error;
+        })
+    .then(response => response.json())
+    .then(response => {
+        if (response.success) {
+            // If login was successful, set the token in local storage
+            localStorage.setItem('token', response.token);
+            dispatch(setUser({"username": creds.username}));
+
+            // Dispatch the success action
+            dispatch(fetchFavourites());
+            dispatch(loginSuccess(response));
+        }
+        else {
+            var error:any = new Error('Error ' + response.status);
+            error.response = response;
+            throw error;
+        }
+    })
+    .catch(error => dispatch(loginFailure(error.message)))
+};
+export const signUpUser = (creds: any) => (dispatch: any) => {
+    // We dispatch requestLogin to kickoff the call to the API
+        dispatch(loginRequest(creds))
+        console.log("hello");
+
+    return fetch(baseUrl + 'users/signup', {
+        method: 'POST',
+        headers: { 
+            'Content-Type':'application/json' 
+        },
+        body: JSON.stringify(creds)
+    })
+    .then(response => {
+        if (response.ok) {
+            return response;
+        } else {
+            var error:any = new Error('Error ' + response.status + ': ' + response.statusText);
+            error.response = response;
+            throw error;
+        }
+        },
+        error => {
+            throw error;
+        })
+    .then(response => response.json())
+    .then(response => {
+        if (response.success) {
+            // If login was successful, set the token in local storage
+            localStorage.setItem('token', response.token);
+            dispatch(setUser({"username": creds.username}));
+
+            // Dispatch the success action
+            dispatch(fetchFavourites());
+            dispatch(loginSuccess(response));
+        }
+        else {
+            var error:any = new Error('Error ' + response.status);
+            error.response = response;
+            throw error;
+        }
+    })
+    .catch(error => dispatch(loginFailure(error.message)))
+};
+
+export const logoutUser = () => (dispatch: any) => {
+    dispatch(logoutRequest())
+    localStorage.removeItem('token');
+    dispatch(favouritesFailed("Error 401: Unauthorized"));
+    dispatch(logoutSuccess())
+}
+
+
+/**
  * @function post comment on dish 
  * @returns comment
  */
@@ -193,61 +320,7 @@ export const postFeedback = (feedback: any) => (dispatch: any) => {
     .catch(error =>  { console.log('Feedback', error.message); alert('Your feedback could not be posted\nError: '+error.message); });
 };
 
-/**
- * 
- * @returns login user
- */
 
-
-export const loginUser = (creds: any) => (dispatch: any) => {
-    // We dispatch requestLogin to kickoff the call to the API
-    dispatch(loginRequest(creds))
-
-    return fetch( 'https://localhost:3443/users/login', {
-        method: 'POST',
-        headers: { 
-            'Content-Type':'application/json' 
-        },
-        body: JSON.stringify(creds)
-    })
-    .then(response => {
-        if (response.ok) {
-            return response;
-        } else {
-            var error:any = new Error('Error ' + response.status + ': ' + response.statusText);
-            error.response = response;
-            throw error;
-        }
-        },
-        error => {
-            throw error;
-        })
-    .then(response => response.json())
-    .then(response => {
-        if (response.success) {
-            // If login was successful, set the token in local storage
-            localStorage.setItem('token', response.token);
-            dispatch(setUser({"username": creds.username}));
-
-            // Dispatch the success action
-            dispatch(fetchFavourites());
-            dispatch(loginSuccess(response));
-        }
-        else {
-            var error:any = new Error('Error ' + response.status);
-            error.response = response;
-            throw error;
-        }
-    })
-    .catch(error => dispatch(loginFailure(error.message)))
-};
-
-export const logoutUser = () => (dispatch: any) => {
-    dispatch(logoutRequest())
-    localStorage.removeItem('token');
-    dispatch(favouritesFailed("Error 401: Unauthorized"));
-    dispatch(logoutSuccess())
-}
 
 /**
  * 

@@ -19,8 +19,8 @@ interface Comment {
   comment: string;
   rating: number;
   author: {
-    firstname: string;
-    lastname: string;
+    firstName: string;
+    lastName: string;
   };
   updatedAt: string;
 }
@@ -66,7 +66,7 @@ const RenderComments: React.FC<RenderCommentsProps> = ({ comments, postComment, 
           <p className="text-gray-700">{comment.comment}</p>
           <p className="text-gray-500">{comment.rating} stars</p>
           <p className="text-sm text-gray-400">
-            -- {comment.author.firstname} {comment.author.lastname},
+            -- {comment.author.firstName} {comment.author.lastName},
             {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(Date.parse(comment.updatedAt)))}
           </p>
         </li>

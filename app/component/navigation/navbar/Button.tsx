@@ -4,7 +4,7 @@ import { Loading } from '../../LoadingComponent';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser, logoutUser } from '@/redux/actions/ActionCreators';
 import { RootState, AppDispatch } from '@/redux/store'; // Import the type for your root state
-import { setIsModal } from '@/redux/reducers/other-slice';
+import { setLoginModal } from '@/redux/reducers/other-slice';
 import LoginModal from '../../LoginModal';
 
 
@@ -17,7 +17,7 @@ const Button = () => {
   const dispatch: AppDispatch = useDispatch();
 
   const toggleModal = () => {
-    dispatch(setIsModal());
+    dispatch(setLoginModal());
   }
 
 
@@ -35,9 +35,9 @@ const Button = () => {
       </button>
       :
       <div className="flex items-center flex-col md:flex-row justify-center">
-        <p className="mr-3">Username</p>
+        <p className="mr-3"></p>
+          <button className="fa fa-sign-out fa-lg md:mr-6 uppercase">{auth.user.username ? auth.user.username : null}</button>
         <button onClick={handleLogout} className='bg-muted-orange hover:bg-charcoal-gray text-white py-2 px-8 rounded'>
-          <span className="fa fa-sign-out fa-lg"></span> 
           {auth.isLoading ? <Loading/> : "Logout"}
         </button>
       </div>

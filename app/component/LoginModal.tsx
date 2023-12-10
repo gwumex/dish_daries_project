@@ -3,7 +3,7 @@ import React, { useState, useRef } from 'react';
 import { loginUser, logoutUser } from '@/redux/actions/ActionCreators';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../../redux/store'
-import { setIsModal } from '@/redux/reducers/other-slice';
+import { setLoginModal, setSignUpModal } from '@/redux/reducers/other-slice';
 
 
 const LoginModal = () => {
@@ -12,8 +12,12 @@ const LoginModal = () => {
     const passwordRef = useRef<HTMLInputElement>(null);
     const dispatch: AppDispatch = useDispatch();
     
+  const toggleSignUPModal = () => {
+    dispatch(setLoginModal());
+    dispatch(setSignUpModal());
+  }
   const toggleModal = () => {
-    dispatch(setIsModal());
+    dispatch(setLoginModal());
   }
 
     const handleLogin = (event: React.FormEvent) => {
@@ -23,12 +27,12 @@ const LoginModal = () => {
                 username: usernameRef.current.value,
                 password: passwordRef.current.value,
             }));
-            dispatch(setIsModal());
+            dispatch(setLoginModal());
         }
     
       };
   return (
-<div className={`fixed inset-0 bg-deep-blue bg-opacity-50 z-50 ${other.isModalOpen ? 'flex' : 'hidden'}`} onClick={toggleModal}>
+<div className={`fixed inset-0 bg-deep-blue bg-opacity-50 z-50 ${other.isLoginModalModalOpen ? 'flex' : 'hidden'}`} onClick={toggleModal}>
   <div className='relative p-4 w-full max-w-md m-auto flex-col flex bg-white rounded-lg shadow-lg' onClick={(e) => e.stopPropagation()}>
     <div className='flex justify-between items-center border-b pb-3'>
       <h2 className="text-xl font-bold text-gray-700">Login</h2>
@@ -50,7 +54,16 @@ const LoginModal = () => {
         </div>
         <button type="submit" className="w-full mt-4 bg-muted-orange text-white py-2 rounded-md hover:bg-deep-blue transition-colors duration-200">Login</button>
       </form>
+      
     </div>
+    <button onClick={toggleSignUPModal} className=''>Don't have an Account?
+    <u>
+      <b>
+        <em className='hover:text-muted-orange'> Register</em>
+      </b>
+    </u>
+    </button>
+
   </div>
 </div>
 

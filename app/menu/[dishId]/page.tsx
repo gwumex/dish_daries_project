@@ -26,11 +26,12 @@ const DishWithId = () => {
     // Fetch dishes, comments, and favorites if they are not already in the state
     dispatch(fetchComments());
     dispatch(fetchFavourites());
-  }, [dispatch]);
+  }, []);
 
   const dishes = useSelector((state: RootState) => state.dishes);
   const comments = useSelector((state: RootState) => state.comments.comments);
   const comments_per_dish = comments.filter((comment) => comment.dish === dishId)
+  console.log(comments_per_dish);
 
   const favourites = useSelector((state: RootState) => state.favourites?.favourites);
   const auth = useSelector((state: RootState) => state.auth);
@@ -60,7 +61,7 @@ const DishWithId = () => {
           errMess={dishes.errMess} 
           favourite={false} 
           postFavourite={postFavourite} 
-          comments={comments} 
+          comments={comments_per_dish} 
           postComment={postComment} />
   );
 };

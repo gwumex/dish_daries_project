@@ -1,25 +1,31 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface OtherState {
-    isModalOpen: boolean
+    isLoginModalModalOpen: boolean
+    isSignUpModalOpen: boolean
 }
 
 const initialState: OtherState = {
-    isModalOpen: false
+    isLoginModalModalOpen: false,
+    isSignUpModalOpen: false
 }
 
 const otherSlice = createSlice ({
     name: "other",
     initialState, 
     reducers: {
-        setIsModal: (state) => {
-            state.isModalOpen = (!state.isModalOpen)
+        setLoginModal: (state) => {
+            state.isLoginModalModalOpen = (!state.isLoginModalModalOpen)
+        },
+        setSignUpModal: (state) => {
+            state.isSignUpModalOpen = (!state.isSignUpModalOpen)
         }
     }
 })
 
 
 export const {
-    setIsModal
+    setLoginModal,
+    setSignUpModal
   } = otherSlice.actions;
   export default otherSlice.reducer;
