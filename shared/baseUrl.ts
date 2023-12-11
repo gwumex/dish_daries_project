@@ -1,1 +1,1 @@
-export const baseUrl = 'https://localhost:3443/';
+export const baseUrl = process.env.NEXT_PUBLIC_BASEURL;

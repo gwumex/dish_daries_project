@@ -34,14 +34,14 @@ const Favourites: React.FC<FavouritesProps> = ({ favourites, deleteFavourite }) 
     return <Loading />;
   } else if (favourites.errMess) {
     return (
-      <div className="container mx-auto mt-3">
+      <div className="mx-auto mt-3">
         <h4>{favourites.errMess}</h4>
       </div>
     );
   } else if (favourites.favourites?.dishes.length > 0) {
     const favouriteDishes = favourites.favourites.dishes.map((dish) => {
       return (
-        <div key={dish._id} className="col-12 mt-5">
+        <div key={dish._id} >
           <RenderMenuItem dish={dish} deleteFavourite={deleteFavourite} dispatch={dispatch}/>
         </div>
       );
@@ -49,21 +49,7 @@ const Favourites: React.FC<FavouritesProps> = ({ favourites, deleteFavourite }) 
 
 
     return (
-      
-      <div className="container mx-auto mt-3">
-        <nav className="flex" aria-label="breadcrumb">
-          <ol className="breadcrumb">
-            <li className="breadcrumb-item">
-              <Link href="/home">
-                Home
-              </Link>
-            </li>
-            <li className="breadcrumb-item active" aria-current="page">
-              My Favorites
-            </li>
-          </ol>
-        </nav>
-        <h3 className="text-3xl font-semibold mb-3">My Favorites</h3>
+      <div>
         <ul className="list-none">
           {favouriteDishes}
         </ul>
@@ -71,7 +57,7 @@ const Favourites: React.FC<FavouritesProps> = ({ favourites, deleteFavourite }) 
     );
   } else {
     return (
-      <div className="container mx-auto mt-3">
+      <div className="mx-auto mt-3">
         <h4>You have no favorites</h4>
       </div>
     );

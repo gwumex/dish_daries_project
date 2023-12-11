@@ -1,0 +1,47 @@
+/* About.css */
+.about-container {
+    /* Add general styles for the about page container if needed */
+  }
+  
+  .about-breadcrumb {
+    @apply text-ivory-white;
+  }
+  
+  .about-heading {
+    @apply text-muted-orange;
+  }
+  
+  .about-row-content {
+    @apply my-4;
+  }
+  
+  .card-header {
+    @apply bg-deep-blue text-ivory-white;
+  }
+  
+  .card-body {
+    @apply bg-charcoal-gray text-ivory-white;
+  }
+  
+  .media {
+    @apply my-5;
+  }
+  
+  .media-body h5 {
+    @apply text-muted-orange;
+  }
+  
+  .media img {
+    @apply border border-muted-orange;
+  }
+  
+  .blockquote-footer {
+    @apply text-ivory-white;
+  }
+  
+  .copy-right {
+    @apply text-center text-muted-orange my-4;
+  }
+  
+  /* You can continue adding styles as needed */
+  

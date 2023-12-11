@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import Navbar from "./navbar";
-import Sidebar from "./sidebar";
 import { lusitana } from "@/app/fonts";
 
 
@@ -13,7 +12,7 @@ const Navigation = () => {
   };
   return (
     <div className={`${lusitana.className} antialiased`}>
-      <Sidebar isOpen={isOpen} toggle={toggle} />
+      {/* <Sidebar isOpen={isOpen} toggle={toggle} /> */}
       <Navbar toggle={toggle} />
     </div>
   );

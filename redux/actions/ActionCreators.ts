@@ -35,7 +35,6 @@ export const loginWithToken = (token: any) => async (dispatch: any)=> {
             throw new Error('Token validation failed');
         }
         const data = await response.json();
-        console.log(data);
         dispatch(loginSuccess(token));
         dispatch(setUser(data.user));
 
@@ -64,13 +63,11 @@ export  const loginUser = (creds: any) => async (dispatch: AppDispatch) => {
             body: JSON.stringify(creds)
 
         });
-        console.log(response);
         if (!response.ok){
             return await handleError(response)
         }
 
         const data = await response.json()
-        console.log(data);
         if (data.success) {
             localStorage.setItem('token', data.token);
             dispatch(setUser(data.user));

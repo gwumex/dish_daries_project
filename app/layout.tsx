@@ -4,7 +4,6 @@ import { Inter } from 'next/font/google'
 import ReduxProvider from '../redux/features/provider'
 import Header from './component/HeaderComponent'
 import Footer from './component/FooterComponent'
-import Navigation from './component/navigation'
 import LoginModal from './component/LoginModal'
 import SignUpModal from './component/SignUpModal'
 import InitiateLoad from './component/InitiateLoad'
@@ -28,7 +27,7 @@ export default function RootLayout({
       <body className={`${inter.className} min-h-full flex flex-col justify-around`}>
         <InitiateLoad/>
       <Header/>
-      <div className='mt-20 min-h-[70vh]'>
+      <div className='min-h-[75vh]'>
         {children}
       </div>
         <LoginModal/>

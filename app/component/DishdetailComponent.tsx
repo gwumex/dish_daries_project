@@ -27,12 +27,11 @@ const RenderDish: React.FC<RenderDishProps> = ({ dish, favourite, postFavourite,
 
 );
 
-
-
 const DishDetail: React.FC<DishDetailProps> = ({ dish, isLoading, errMess, favourite, postFavourite, comments, postComment }) => {
   const dispatch: AppDispatch = useDispatch();
 
-  return <div className="container mx-auto p-4">
+  return (
+  <div className="container mx-auto p-4">
     {isLoading ? (
       <div className="flex justify-center">
         <Loading />
@@ -52,7 +51,8 @@ const DishDetail: React.FC<DishDetailProps> = ({ dish, isLoading, errMess, favou
     ) : (
       <div>Content not available</div>
     )}
-  </div>;
+  </div>
+  );
 
 };
 

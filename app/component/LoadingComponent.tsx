@@ -4,10 +4,23 @@ import './LoadingStyles.css';
 export const Loading = () => {
     return(
         <div className="loading-container">
-            <svg className="loading-spinner" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 0116 0H4z"></path>
-            </svg>
+            <span className="loading loading-ring loading-xs"></span>
+            <span className="loading loading-ring loading-sm"></span>
+            <span className="loading loading-ring loading-md"></span>
+            <span className="loading loading-ring loading-lg"></span>
         </div>
     );
 };
+
+export const DishesSkeletonLoading = () => {
+    return (
+      <div className="flex flex-col gap-4 min-w-200">
+      <div className="skeleton h-60 w-full"></div>
+      <div className="skeleton h-4 w-44"></div>
+      <div className="skeleton h-4 w-full"></div>
+      <div className="skeleton h-4 w-full"></div>
+    </div>
+    )
+  }
+  
+    

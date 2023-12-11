@@ -15,13 +15,25 @@ const config: Config = {
       },
       colors: {
         'deep-blue': '#001F3F',
-        'charcoal-gray': '#404040',
+        'charcoal-gray': '#001F3F',
         'muted-orange': '#FFA07A',
         'muted-orange-deep': '#FFA07F',
         'ivory-white': '#F8F8F8',
       },
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
+  daisyui: {
+    themes: [ {
+      mytheme: {
+        "primary": "#001F3F",
+        "secondary": "#FFA07F",
+        "accent": "#FFA07A",
+        "neutral": "#404040",
+        "base-100": "#F8F8F8",
+      },
+    },], // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
+  },
+
 }
 export default config

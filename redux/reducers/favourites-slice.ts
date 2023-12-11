@@ -23,7 +23,6 @@ const favouritesSlice = createSlice({
         favouritesFailed: (state, action) => {
             state.isLoading = false;
             state.errMess = action.payload;
-            state.favourites.dishes = [];
           },
     }
 })

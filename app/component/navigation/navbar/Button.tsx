@@ -23,28 +23,31 @@ const Button = () => {
 
   return (
     <>
-    <div>
-    {!auth.isAuthenticated ?
-      <button onClick={toggleModal} className='bg-muted-orange hover:bg-charcoal-gray text-white py-2 px-8 rounded'>
-        {auth.isLoading ? <Loading/> : "Login"}
-      </button>
-      :
-      <div className="flex items-center flex-col md:flex-row justify-center">
-          <button className="fa fa-sign-out fa-lg md:mr-6 uppercase">
-            <Link href="/profile">
-            {auth.user.username ? auth.user.username : null}
-
-            </Link>
+      <div>
+        {!auth.isAuthenticated ?
+          <button onClick={toggleModal} className='btn py-2 px-8 rounded'>
+            {auth.isLoading ? <Loading /> : "Login"}
+          </button>
+          :
+          <div className="flex items-center flex-col md:flex-row justify-center">
+            <button className=" fa fa-sign-out fa-lg md:mr-6 uppercase hidden md:block">
+              <Link href="/profile">
+                <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                  <div className="w-10 rounded-full">
+                    <img alt="Profile" src="avatar.png" />
+                  </div>
+                </div>
+              </Link>
             </button>
-        <button onClick={handleLogout} className='bg-muted-orange hover:bg-charcoal-gray text-white py-2 px-8 rounded'>
-          {auth.isLoading ? <Loading/> : "Logout"}
-        </button>
+            <button onClick={handleLogout} className='btn btn-active py-2 px-8 rounded'>
+              {auth.isLoading ? <Loading /> : "Logout"}
+            </button>
+          </div>
+        }
       </div>
-    }
-  </div>
 
     </>
-    );
+  );
 };
 
 export default Button;
