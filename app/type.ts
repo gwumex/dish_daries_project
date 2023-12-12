@@ -24,6 +24,7 @@ export interface User {
     * @usage Define type for Dish object
     */
   export interface Dish {
+    author: any;
     _id: string;
     name: string;
     image: string;
@@ -34,6 +35,15 @@ export interface User {
     description: string;
     likes: number;
     no_of_comments: number
+  }
+
+  export interface PostDish {
+    name: string;
+    image: string;
+    category: string;
+    label: string;
+    price: string;
+    description: string;
   }
 
      /**

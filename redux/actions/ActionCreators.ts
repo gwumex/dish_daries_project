@@ -2,8 +2,8 @@ import { baseUrl } from '../../shared/baseUrl';
 import { addPromos, promosLoading, promosFailed } from '../reducers/promotions-slice';
 import {addLeaders, leadersLoading, leadersFailed} from '../reducers/leaders-slice'
 import {addFavourites, favouritesLoading, favouritesFailed} from '../reducers/favourites-slice'
-import {addDishes, dishesLoading, dishesFailed} from '../reducers/dishes-slice'
-import {addComments, addComment, commentsFailed} from '../reducers/comments-slice'
+import {addDishes, dishesLoading, dishesFailed, addDish, dishFailed, dishLoading} from '../reducers/dishes-slice'
+import {addComments, addComment, commentsFailed, commentPostFailed} from '../reducers/comments-slice'
 import {  loginRequest,
     loginSuccess,
     loginFailure,
@@ -13,7 +13,7 @@ import {  loginRequest,
 import { setLoginModal, setSignUpModal } from '../reducers/other-slice';
 import { handleError } from '@/app/hooks';
 import { AppDispatch } from '../store';
-import { Creds, Comment } from '@/app/type';
+import { Creds, Comment, Dish, PostDish } from '@/app/type';
 
 /***
  * @function loginWithToken
@@ -143,43 +143,79 @@ export const logoutUser = () => (dispatch: any) => {
  * @function postComment comment on dish 
  * @returns comment
  */
-export const postComment = (dishId: any, rating: any, comment: any) => (dispatch: AppDispatch) => {
-
+export const postComment = (dishId: string, rating: number, comment: string) => async (dispatch: AppDispatch) => {
     const newComment = {
         dish: dishId,
         rating: rating,
         comment: comment
-    }
+    };
     console.log('Comment ', newComment);
 
     const bearer = 'Bearer ' + localStorage.getItem('token');
 
-    return fetch(baseUrl + 'comments', {
-        method: 'POST',
-        body: JSON.stringify(newComment),
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': bearer
-        },
-        credentials: 'same-origin'
-    })
-    .then(response => {
-        if (response.ok) {
-            return response;
+    try {
+        const response = await fetch(baseUrl + 'comments', {
+            method: 'POST',
+            body: JSON.stringify(newComment),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': bearer
+            },
+            credentials: 'same-origin'
+        });
+
+        if (!response.ok) {
+            return await handleError(response);
         }
-        else {
-            return handleError(response)
+
+        const jsonResponse = await response.json();
+        dispatch(addComment(jsonResponse));
+    } catch (error) {
+        dispatch(commentPostFailed(error.message))
+        console.error('Post comments ', error);
+    }
+};
+export const postDish = ({dishName, dishImage, dishCategory, dishLabel, dishPrice, dishDescription}) => async (dispatch: AppDispatch) => {
+    dispatch(dishLoading())
+    const formData = new FormData();
+    formData.append('name', dishName);
+    formData.append('image', dishImage);
+    formData.append('category', dishCategory);
+    formData.append('label', dishLabel);
+    formData.append('price', dishPrice);
+    formData.append('description', dishDescription);
+
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
+    try {
+        const response = await fetch(baseUrl + 'dishes', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Authorization': bearer
+            },
+            credentials: 'same-origin'
+        });
+
+        if (!response.ok) {
+            return await handleError(response);
         }
-    },
-    error => {
-        var errmess = new Error(error.message);
-        throw errmess;
-    })
-    .then(response => response.json())
-    .then(response => dispatch(addComment(response)))
-    .catch(error => { console.log('Post comments ', error.message);
-        alert('Your comment could not be posted\nError: '+ error.message); })
-}
+
+        const jsonResponse = await response.json();
+        dispatch(addDish(jsonResponse))
+    } catch (error) {
+        console.log("hello");
+        dispatch(dishFailed(error.message))
+        console.error( error.message);
+    }
+};
+
+
+/**
+ * @function post dish
+ */
+
+
 
 /**
  * 

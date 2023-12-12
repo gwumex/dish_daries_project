@@ -6,6 +6,8 @@
 export const handleError = async (response: any): Promise<any> => {
         // Attempt to parse the response body and extract a custom error message
         const errorBody = await response.json();
-        const errorMessage = errorBody.err.message || `Error ${response.status}: ${response.statusText}`;
+        console.log(errorBody);
+        const errorMessage = errorBody.message || errorBody.err.message;
+        console.log(errorMessage);
         throw new Error(errorMessage);
 };

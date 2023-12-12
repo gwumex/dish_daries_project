@@ -1,5 +1,5 @@
 import React from 'react';
-import { Loading } from './LoadingComponent';
+import { Loading, DishesSkeletonLoading} from './LoadingComponent';
 import { baseUrl } from '../../shared/baseUrl';
 import './Home.css'; // Make sure this import points to the correct file path
 import HeroComponent from './HeroComponent';
@@ -7,7 +7,7 @@ import { HomeProps, RenderCardProps } from '../type';
 
 function RenderCard({ item, isLoading, errMess }: RenderCardProps) {
   if (isLoading) {
-    return <Loading />;
+    return <DishesSkeletonLoading />;
   } else if (errMess) {
     return <h4>{errMess}</h4>;
   } else {

@@ -1,19 +1,26 @@
 "use client"
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { loginUser, logoutUser } from '@/redux/actions/ActionCreators';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../../redux/store'
 import { setLoginModal, setSignUpModal } from '@/redux/reducers/other-slice';
+import { clearError, loginFailure} from '@/redux/reducers/auth-slice';
+import { Loading } from './LoadingComponent';
 
 
 const LoginModal = () => {
+  const dispatch: AppDispatch = useDispatch();
   const other = useSelector((state: RootState) => state.other);
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const loginError = useSelector((state: RootState) => state.auth.errMess); // Access login error from Redux store
-
-  const dispatch: AppDispatch = useDispatch();
-
+  const isLoading = useSelector((state: RootState) => state.auth.isLoading);
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(clearError())
+    }, 4000)
+  }, [loginError])
+  
   const toggleSignUPModal = () => {
     dispatch(setLoginModal());
     dispatch(setSignUpModal());
@@ -21,7 +28,6 @@ const LoginModal = () => {
   const toggleModal = () => {
     dispatch(setLoginModal());
   }
-
   const handleLogin = (event: React.FormEvent) => {
     event.preventDefault();
     if (usernameRef.current && passwordRef.current) {
@@ -53,12 +59,12 @@ const LoginModal = () => {
               <input type="password" id="password" name="password" ref={passwordRef}
                 className="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-muted-orange" />
             </div>
-            <button type="submit" className="w-full mt-4 bg-muted-orange text-white py-2 rounded-md hover:bg-deep-blue transition-colors duration-200">Login</button>
+            <button type="submit" className="w-full mt-4 bg-muted-orange text-white py-2 rounded-md hover:bg-deep-blue transition-colors duration-200">{isLoading?<Loading/> : "Login"}</button>
           </form>
           {loginError && (
-            <div className="text-red-500 p-2 text-center">
-              {loginError} {/* Display login error */}
-            </div>
+            <span  className="text-red-500 p-2 text-center">
+              {loginError}
+            </span>
           )}
 
           <div className='pt-4'>

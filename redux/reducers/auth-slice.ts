@@ -43,6 +43,9 @@ const authSlice = createSlice({
       state.token = '';
       state.user = null;
     },
+    clearError: (state) => {
+      state.errMess = null;
+    }
   },
 });
 
@@ -52,6 +55,7 @@ export const {
   loginFailure,
   logoutRequest,
   logoutSuccess,
-  setUser
+  setUser,
+  clearError
 } = authSlice.actions;
 export default authSlice.reducer;

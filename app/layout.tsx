@@ -27,7 +27,7 @@ export default function RootLayout({
       <body className={`${inter.className} min-h-full flex flex-col justify-around`}>
         <InitiateLoad/>
       <Header/>
-      <div className='min-h-[75vh]'>
+      <div className='min-h-[75vh] bg-base-100'>
         {children}
       </div>
         <LoginModal/>

@@ -3,7 +3,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: OtherState = {
     isLoginModalModalOpen: false,
-    isSignUpModalOpen: false
+    isSignUpModalOpen: false,
+    
 }
 
 const otherSlice = createSlice ({

@@ -1,55 +1,122 @@
 "use client";
 import React, { useRef } from 'react';
-import { signUpUser } from '@/redux/actions/ActionCreators';
-import { AppDispatch } from '@/redux/store';
-import { useDispatch } from 'react-redux';
+import { signUpUser, postDish } from '@/redux/actions/ActionCreators';
+import { AppDispatch, RootState } from '@/redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { Loading } from '@/app/component/LoadingComponent';
 
 const page = () => {
-    const usernameRef = useRef<HTMLInputElement>(null);
-    const passwordRef = useRef<HTMLInputElement>(null);
-    const firstNameRef = useRef<HTMLInputElement>(null);
-    const lastNameRef = useRef<HTMLInputElement>(null);
-    const dispatch: AppDispatch = useDispatch();
+  const isLoading = useSelector((state: RootState)=> state.dishes.isLoading)
+  const dishNameRef = useRef<HTMLInputElement>(null);
+  const dishLabelRef = useRef<HTMLInputElement>(null);
+  const dishImageRef = useRef<HTMLInputElement>(null);
+  const dishCategoryRef = useRef<HTMLSelectElement>(null);
+  const dishPriceRef = useRef<HTMLInputElement>(null);
+  const dishDescriptionRef = useRef<HTMLTextAreaElement>(null);
+  const fileSizeErrorRef = useRef(null);
+  const dispatch: AppDispatch = useDispatch();
 
+  const MAX_SIZE = 600 * 1024; // 600 KB in bytes
 
-    const UploadDish = (event: React.FormEvent) => {
-    event.preventDefault();
-    if (usernameRef.current && passwordRef.current) {
-        dispatch(signUpUser({
-            username: usernameRef.current.value,
-            password: passwordRef.current.value,
-            firstName: firstNameRef.current.value,
-            lastName: lastNameRef.current.value
-        }));
-        // dispatch(setIsModal());
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+
+    if (file && file.size > MAX_SIZE) {
+      fileSizeErrorRef.current.innerText = "Image size should not exceed 600KB"
+      dishImageRef.current.value = '';
+    } else {
+      if (fileSizeErrorRef.current) {
+        fileSizeErrorRef.current.innerText = "";
+      }
     }
+  };
 
-    };
+  const UploadDish = async (event) => {
+    event.preventDefault();
+    if (dishNameRef.current && dishLabelRef.current && dishImageRef.current && dishCategoryRef.current && dishPriceRef.current && dishDescriptionRef.current) {
+      let base64Image = null;
+
+      if (dishImageRef.current.files[0]) {
+        base64Image = await toBase64(dishImageRef.current.files[0]);
+      }
+
+      dispatch(postDish({
+        dishName: dishNameRef.current.value,
+        dishLabel: dishLabelRef.current.value,
+        dishImage: base64Image,
+        dishCategory: dishCategoryRef.current.value,
+        dishPrice: dishPriceRef.current.value,
+        dishDescription: dishDescriptionRef.current.value
+      }));
+    }
+  };
+
+  const toBase64 = (file) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+
 
   return (
-        <div className="p-6 flex flex-col justify-center">
-          <form onSubmit={UploadDish} className="space-y-4">
-        <div className='flex flex-col'>
-          <label htmlFor="username" className="text-md font-semibold text-gray-600">Username</label>
-          <input type="text" id="username" name="username" ref={usernameRef} 
-                 className="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-muted-orange"/>
-        </div>
-        <div className='flex flex-col'>
-          <label htmlFor="firstName" className="text-md font-semibold text-gray-600">FirstName</label>
-          <input type="text" id="firstName" name="firstName" ref={firstNameRef} 
-                 className="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-muted-orange"/>
-        </div>
-        <div className='flex flex-col'>
-          <label htmlFor="lastName" className="text-md font-semibold text-gray-600">LastName</label>
-          <input type="text" id="lastName" name="lastName" ref={lastNameRef} 
-                 className="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-muted-orange"/>
-        </div>
-        <div className='flex flex-col'>
-          <label htmlFor="password" className="text-md font-semibold text-gray-600">Password</label>
-          <input type="password" id="password" name="password" ref={passwordRef}
-                 className="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-muted-orange"/>
-        </div>
-        <button type="submit" className="w-full mt-4 bg-muted-orange text-white py-2 rounded-md hover:bg-deep-blue transition-colors duration-200">Register</button>
+    <div className="p-6 flex flex-col justify-center items-center ">
+      <form onSubmit={UploadDish} className="space-y-4 flex flex-col items-center">
+        <label className="form-control w-full max-w-xs">
+          {/* name */}
+          <div className="label">
+            <span className="label-text">Dish Name</span>
+          </div>
+          <input required type="text" id="dishName" name="dishName" ref={dishNameRef} placeholder="Dish Name" className="input input-bordered w-full max-w-xs" />
+
+        </label>
+        {/* image */}
+        <label className="form-control w-full max-w-xs">
+          <div className="label">
+            <span className="label-text">Dish Image</span>
+          </div>
+          <input required type="file" onChange={handleFileChange} id="dishImage" name="dishImage" ref={dishImageRef} placeholder="Dish Image" className="file-input file-input-bordered w-full max-w-xs" />
+          <div className="label">
+            <span ref={fileSizeErrorRef} className="label-text-alt text-red-500"></span>
+          </div>
+        </label>
+        {/* category */}
+        <label className="form-control w-full max-w-xs">
+          <div className="label">
+            <span className="label-text">Pick the category of dish</span>
+          </div>
+          <select required className="select select-bordered" id="dishCategory" name="dishLabel" ref={dishCategoryRef}>
+            <option disabled selected>Pick one</option>
+            <option>Appetizers or Starters</option>
+            <option>Main Course</option>
+            <option>Side Dishes</option>
+            <option>Desserts</option>
+            <option>Seasonal or Specials</option>
+          </select>
+        </label>
+        {/* dish label */}
+        <label className="form-control w-full max-w-xs">
+          <div className="label">
+            <span className="label-text">Dish Label</span>
+          </div>
+          <input required type="text" id="dishLabel" name="dishLabel" ref={dishLabelRef} placeholder="Dish Label" className="input input-bordered w-full max-w-xs" />
+        </label>
+        {/* dish price */}
+        <label className="form-control w-full max-w-xs">
+          <div className="label">
+            <span className="label-text">Dish Price</span>
+          </div>
+          <input type="text" id="dishPrice" name="dishPrice" ref={dishPriceRef} placeholder="Dish Price" className="input input-bordered w-full max-w-xs" />
+        </label>
+        {/* dish description*/}
+        <label className="form-control w-full max-w-xs">
+          <div className="label">
+            <span className="label-text">Dish Description</span>
+          </div>
+          <textarea required id="dishDescription" name="dishDescription" ref={dishDescriptionRef} placeholder="Dish Description" className="textarea textarea-bordered h-24"></textarea>
+        </label>
+        {/* button */}
+        <button type="submit" className="btn btn-wide">{isLoading? <Loading/> : "Submit"}</button>
       </form>
     </div>
   )

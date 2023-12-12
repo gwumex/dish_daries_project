@@ -28,9 +28,9 @@ const template = ({
   }, [pathname]);
 
   return (
-    <div className="p-6 mt-16">
-      <div className="text-sm breadcrumbs">
-        <ul>
+    <div className="mt-24 p-10 ">
+      <div className="text-sm breadcrumbs fixed bg-base-200 left-0 pl-6 pr-3 z-30 top-16  border-r-2 border-secondary rounded-br-lg">
+        <ul className='flex flex-wrap shrink overflow-hidden '>
           <li><Link href="/">Home</Link></li>
           {Object.entries(breadcrumbs).map(([key, value], index, array) => (
 
@@ -40,7 +40,7 @@ const template = ({
           ))}
         </ul>
       </div>
-      <div className="mx-auto">
+      <div className="">
       <div className="text-center">
           <h2 className="text-xl md:2xlfont-semibold">{heading}</h2>
           <hr className="my-6 border-gray-300" />
