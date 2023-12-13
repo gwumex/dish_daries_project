@@ -12,7 +12,7 @@ import Toast from './component/toast'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Dish Daries',
+  title: 'Dish Diaries',
   description: 'Unveiling Culinary Journeys, One Dish at a Time',
 }
 

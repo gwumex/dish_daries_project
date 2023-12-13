@@ -55,7 +55,7 @@ const Navbar = () => {
     <div className="navbar bg-base-200 fixed top-0 z-50 border-b-2 border-secondary border-opacity-60">
       <div className="navbar-start">
 
-        <Link href="/" className="btn btn-ghost text-xl">Dish Daries</Link>
+        <Link href="/" className="btn btn-ghost text-xl">Dish Diaries</Link>
       </div>
       <Link href="/upload" className={` ${pathname === "/upload" || !auth ? "hidden": "block"} animate-ping md:hidden text-center text-secondary`}>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">

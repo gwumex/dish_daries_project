@@ -27,7 +27,7 @@ function Footer() {
     </div>
   </nav> 
   <aside>
-    <p>Copyright &copy; {new Date().getFullYear()} Dishes Daries
+    <p>Copyright &copy; {new Date().getFullYear()} Dishes Diaries
 </p>
   </aside>
 </footer>
