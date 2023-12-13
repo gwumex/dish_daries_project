@@ -18,7 +18,6 @@ const template = ({
     .toLowerCase()
     .replace(/(^\w|\s\w)/g, m => m.toUpperCase());
     setHeading(heading)
-    console.log(heading);
 
     const breadcrumbsObject: { [key: string]: string } = {};
     breadcrumbsList.forEach((segment, index, array) => {

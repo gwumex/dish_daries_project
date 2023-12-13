@@ -40,7 +40,6 @@ const Navbar = () => {
 
   // Close dropdown when a link is clicked
   const closeDropdown = () => {
-    console.log("ooooo");
     setDropdownOpen(false);
     setDesktopDropdownOpen(false);
 
