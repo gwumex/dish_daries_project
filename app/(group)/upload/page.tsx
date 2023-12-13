@@ -60,7 +60,8 @@ const page = () => {
 
 
   return (
-    <div className="p-6 flex flex-col justify-center items-center ">
+    <div className="px-6 flex flex-col justify-center items-center ">
+      <p className='mb-4 text-lg'>Tell Us Your Favourite Dish Story</p>
       <form onSubmit={UploadDish} className="space-y-4 flex flex-col items-center">
         <label className="form-control w-full max-w-xs">
           {/* name */}
@@ -113,7 +114,7 @@ const page = () => {
           <div className="label">
             <span className="label-text">Dish Description</span>
           </div>
-          <textarea required id="dishDescription" name="dishDescription" ref={dishDescriptionRef} placeholder="Dish Description" className="textarea textarea-bordered h-24"></textarea>
+          <textarea required id="dishDescription" name="dishDescription" ref={dishDescriptionRef} placeholder="Dish Description" className="textarea textarea-bordered h-24 caret-primary"></textarea>
         </label>
         {/* button */}
         <button type="submit" className="btn btn-wide">{isLoading? <Loading/> : "Submit"}</button>

@@ -1,0 +1,3 @@
+li {
+    @apply hover:bg-secondary hover:bg-opacity-5
+}

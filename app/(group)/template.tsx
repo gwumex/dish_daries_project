@@ -42,7 +42,7 @@ const template = ({
       </div>
       <div className="">
       <div className="text-center">
-          <h2 className="text-xl md:2xlfont-semibold">{heading}</h2>
+          <h2 className="text-xl md:2xl font-semibold text-primary">{heading}</h2>
           <hr className="my-6 border-gray-300" />
         </div>
         {children}

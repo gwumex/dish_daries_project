@@ -25,21 +25,21 @@ const Button = () => {
     <>
       <div>
         {!auth.isAuthenticated ?
-          <button onClick={toggleModal} className='btn py-2 px-8 rounded'>
+          <button onClick={toggleModal} className='btn py-2 px-8 rounded btn-primary'>
             {auth.isLoading ? <Loading /> : "Login"}
           </button>
           :
-          <div className="flex items-center flex-col md:flex-row justify-center">
-            <button className=" fa fa-sign-out fa-lg md:mr-6 uppercase hidden md:block">
+          <div className="flex items-center flex-col md:flex-row justify-center ">
+            <button className="md:mr-6 hidden md:block ">
               <Link href="/profile">
-                <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar border-2 border-primary rounded-full border-opacity-10 p-0">
                   <div className="w-10 rounded-full">
                     <img alt="Profile" src="avatar.png" />
                   </div>
                 </div>
               </Link>
             </button>
-            <button onClick={handleLogout} className='btn btn-active py-2 px-8 rounded'>
+            <button onClick={handleLogout} className='btn btn-active btn-primary py-2 px-8 rounded hidden md:block'>
               {auth.isLoading ? <Loading /> : "Logout"}
             </button>
           </div>
