@@ -265,8 +265,8 @@ export const fetchDishes = () => (dispatch : AppDispatch) => {
  * @returns comments on dish
  */
 
-export const fetchComments = () => (dispatch: AppDispatch) => {
-    return fetch(baseUrl + 'comments')
+export const fetchComments = (dishId: string) => (dispatch: AppDispatch) => {
+    return fetch(`${baseUrl}comments?dishId=${dishId}`)
         .then(response => {
             if (response.ok) {
                 return response;

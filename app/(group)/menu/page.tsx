@@ -9,6 +9,7 @@ import { Dish, MenuProps } from '../../type'
 import Image from 'next/image';
 
 function RenderMenuItem({ dish }: { dish: Dish }) {
+
   return (
     <div >
       <Link href={`/menu/${dish._id}`}>

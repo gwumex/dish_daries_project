@@ -135,6 +135,7 @@ export interface FavouritesProps {
   export interface RenderDishProps {
     dish: Dish;
     favourite: boolean;
+    no_of_comments: number;
     postFavourite: (dishId: string) => void;
     dispatch: any
   }

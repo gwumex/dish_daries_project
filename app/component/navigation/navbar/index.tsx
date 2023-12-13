@@ -9,7 +9,6 @@ import { usePathname, useSearchParams } from 'next/navigation'
 
 const Navbar = () => {
   const pathname = usePathname();
-  console.log(pathname);
   const auth = useSelector((state: RootState) => state.auth.isAuthenticated);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [desktopDropdownOpen, setDesktopDropdownOpen] = useState(false);
