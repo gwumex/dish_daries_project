@@ -2,7 +2,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store'; // Import the type for your root state
-import './About.css';
 import { baseUrl } from '../../../shared/baseUrl';
 import { Loading } from '../../component/LoadingComponent';
 // Define the types for the leader's properties
@@ -11,14 +10,14 @@ import Link from 'next/link';
 
 const RenderLeader: React.FC<RenderLeaderProps> = ({ leader }) => {
   return (
-    <div className="card card-side flex flex-col md:flex-row">
-      <div className='h-[30%] md:w-[15%] md:h-full ' >
-        <figure><img src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" alt={leader.name} className='object-cover'/></figure>
+    <div className="flex md:flex-row ">
+      <div className='mask mask-hexagon-2' >
+        <figure><img src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" alt={leader.name} className='object-contain'/></figure>
       </div>
-      <div className="card-body h-[50%] md:w-[50%] md:h-full">
+      <div className="px-4 ">
         <h2 className="card-title">{leader.name}</h2>
         <p>{leader.designation}</p>
-        <p className='text-sm md:text-sm'>{leader.description}</p>
+        <p className='text-sm'>{leader.description}</p>
       </div>
     </div>
 

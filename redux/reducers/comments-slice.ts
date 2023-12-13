@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { CommentsState } from "@/app/type";
 
 const initialState: CommentsState = {
-    isLoading: true,
+    isLoading: false,
     errMess: null,
     comments: []
 };
@@ -29,9 +29,16 @@ const commentsSlice = createSlice({
             var comment = action.payload
             state.errMess = null;
             state.comments = state.comments.concat(comment);
+            state.isLoading = false;
         },
+        commentLoading: (state) => {
+            state.isLoading = true;
+        },
+        clearCommentFormError: (state) => {
+            state.errMess = null;
+        }
     }
 })
 
-export const {addComments, addComment, commentsFailed, commentPostFailed} = commentsSlice.actions;
+export const {addComments, addComment, commentsFailed, commentPostFailed, commentLoading, clearCommentFormError} = commentsSlice.actions;
 export default commentsSlice.reducer;

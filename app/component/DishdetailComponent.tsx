@@ -4,14 +4,16 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { CommentFormModal, RenderComments } from './CommentComponent';
 import { RenderDishProps, DishDetailProps } from '../type';
+import { setToastMessage } from '@/redux/reducers/other-slice';
+import Image from 'next/image';
 
 
 const RenderDish: React.FC<RenderDishProps> = ({ dish, favourite, postFavourite, dispatch }) => (
   <div className="card shadow-md shadow-blue-100 flex-col lg:flex-row">
     <div className='md:min-w-[40%] lg:min-w-[60%]'>
       <figure >
-        <img className="mt-4 md:mt-0 object-fill lg:min-w-[30rem]" src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-          alt={dish.name} /></figure>
+        <Image className="mt-4 md:mt-0 object-fill lg:min-w-[30rem]" src={dish.image}
+          alt={dish.name} width={500} height={500}/></figure>
     </div>
     <div className="card-body md:min-w-[30%] lg:w-[30%] bg-gray-200">
       <div className='flex items-center justify-start gap-x-2'>
@@ -27,7 +29,7 @@ const RenderDish: React.FC<RenderDishProps> = ({ dish, favourite, postFavourite,
         <div>
           <button
             className={`${favourite ? 'text-red-500' : 'text-gray-500'} hover:text-red-600 transition-colors duration-300 focus:outline-none`}
-            onClick={() => favourite ? console.log('Already favorite') : dispatch(postFavourite(dish._id))}
+            onClick={() => favourite ? dispatch(setToastMessage("Already Favourite")) : dispatch(postFavourite(dish._id))}
           >
             {favourite ? '❤️' : '🤍'} Favorite
           </button>
@@ -56,12 +58,12 @@ const DishDetail: React.FC<DishDetailProps> = ({ dish, isLoading, errMess, favou
           <h4>{errMess}</h4>
         </div>
       ) : dish ? (
-        <div className="flex flex-col justify-evenly   md:flex-row max-h-[70vh] ">
+        <div className="flex flex-col justify-evenly   md:flex-row ">
           <div className='md:w-[65%] lg:w-[75%] '>
             <RenderDish dish={dish} favourite={favourite} postFavourite={postFavourite} dispatch={dispatch} />
           </div>
             <hr className="my-2 border-gray-300 md:hidden " />
-          <div className='md:w-[33%] lg:w-[25%] bg-gray-200'>
+          <div className='md:w-[33%] lg:w-[25%] '>
             <RenderComments comments={comments} postComment={postComment} dishId={dish._id} />
             <CommentFormModal dishId={dish._id} postComment={postComment} />
           </div>

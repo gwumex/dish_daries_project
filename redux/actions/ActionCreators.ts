@@ -3,14 +3,14 @@ import { addPromos, promosLoading, promosFailed } from '../reducers/promotions-s
 import {addLeaders, leadersLoading, leadersFailed} from '../reducers/leaders-slice'
 import {addFavourites, favouritesLoading, favouritesFailed} from '../reducers/favourites-slice'
 import {addDishes, dishesLoading, dishesFailed, addDish, dishFailed, dishLoading} from '../reducers/dishes-slice'
-import {addComments, addComment, commentsFailed, commentPostFailed} from '../reducers/comments-slice'
+import {addComments, addComment, commentsFailed, commentPostFailed, commentLoading} from '../reducers/comments-slice'
 import {  loginRequest,
     loginSuccess,
     loginFailure,
     logoutRequest,
     logoutSuccess,
     setUser} from '../reducers/auth-slice'
-import { setLoginModal, setSignUpModal } from '../reducers/other-slice';
+import { setLoginModal, setSignUpModal, setToastMessage } from '../reducers/other-slice';
 import { handleError } from '@/app/hooks';
 import { AppDispatch } from '../store';
 import { Creds, Comment, Dish, PostDish } from '@/app/type';
@@ -68,12 +68,14 @@ export  const loginUser = (creds: any) => async (dispatch: AppDispatch) => {
         }
 
         const data = await response.json()
+        console.log(data);
         if (data.success) {
             localStorage.setItem('token', data.token);
             dispatch(setUser(data.user));
             dispatch(fetchFavourites());
             dispatch(loginSuccess(data.token));
             dispatch(setLoginModal());
+            dispatch(setToastMessage(data.status))
         } else {
             throw new Error(data.status);
         }
@@ -121,6 +123,7 @@ export const signUpUser = (creds: Creds) => (dispatch: AppDispatch) => {
             dispatch(setUser({"username": creds.username}));
             dispatch(setSignUpModal());
             dispatch(fetchFavourites());
+            dispatch(setToastMessage(response.status))
         }
         else {
             var error:any = new Error('Error ' + response.status);
@@ -136,6 +139,8 @@ export const logoutUser = () => (dispatch: any) => {
     localStorage.removeItem('token');
     dispatch(favouritesFailed("Error 401: Unauthorized"));
     dispatch(logoutSuccess())
+    dispatch(setToastMessage("Logged Out"))
+
 }
 
 
@@ -144,6 +149,7 @@ export const logoutUser = () => (dispatch: any) => {
  * @returns comment
  */
 export const postComment = (dishId: string, rating: number, comment: string) => async (dispatch: AppDispatch) => {
+    dispatch(commentLoading())
     const newComment = {
         dish: dishId,
         rating: rating,
@@ -170,8 +176,14 @@ export const postComment = (dishId: string, rating: number, comment: string) => 
 
         const jsonResponse = await response.json();
         dispatch(addComment(jsonResponse));
+        dispatch(setToastMessage("Comment Added"))
+
     } catch (error) {
-        dispatch(commentPostFailed(error.message))
+        if(error.message === "Authentication failed"){
+            dispatch(commentPostFailed("Please Login"))
+            dispatch(setToastMessage("Please Login"))
+
+        }
         console.error('Post comments ', error);
     }
 };
@@ -203,10 +215,14 @@ export const postDish = ({dishName, dishImage, dishCategory, dishLabel, dishPric
 
         const jsonResponse = await response.json();
         dispatch(addDish(jsonResponse))
+        dispatch(setToastMessage("Dish Posted Successfully"))
+
     } catch (error) {
         console.log("hello");
         dispatch(dishFailed(error.message))
-        console.error( error.message);
+        if(error.message === "Authentication failed"){
+            dispatch(setToastMessage("Please Login"))
+        }
     }
 };
 
@@ -387,8 +403,19 @@ export const postFavourite = (dishId: string) => (dispatch: AppDispatch) => {
             throw error;
       })
     .then(response => response.json())
-    .then(favourites => { console.log('Favourite Added', favourites); dispatch(addFavourites(favourites)); })
-    .catch(error => dispatch(favouritesFailed(error.message)));
+    .then(favourites => { console.log('Favourite Added', favourites); dispatch(addFavourites(favourites))
+    dispatch(setToastMessage("Added To Favourite"))
+
+     })
+    .catch(error => {
+        console.log(error.message);
+        if(error.message === "Error 401: Unauthorized"){
+            dispatch(favouritesFailed("Please Login"))
+            dispatch(setToastMessage("Please Login"))
+
+        }
+    }
+    );
 }
 
 /**
@@ -420,7 +447,10 @@ export const deleteFavourite = (dishId: string) => (dispatch: AppDispatch) => {
             throw error;
       })
     .then(response => response.json())
-    .then(favourites => { console.log('Favourite Deleted', favourites); dispatch(addFavourites(favourites)); })
+    .then(favourites => { 
+        dispatch(setToastMessage("Favourite Deleted"))
+
+        dispatch(addFavourites(favourites)); })
     .catch(error => dispatch(favouritesFailed(error.message)));
 };
 /**

@@ -7,6 +7,7 @@ import Footer from './component/FooterComponent'
 import LoginModal from './component/LoginModal'
 import SignUpModal from './component/SignUpModal'
 import InitiateLoad from './component/InitiateLoad'
+import Toast from './component/toast'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -30,6 +31,7 @@ export default function RootLayout({
       <div className='min-h-[75vh] bg-base-100'>
         {children}
       </div>
+      <Toast/>
         <LoginModal/>
         <SignUpModal/>
       <Footer/>

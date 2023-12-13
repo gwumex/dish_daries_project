@@ -18,6 +18,7 @@ const template = ({
     .toLowerCase()
     .replace(/(^\w|\s\w)/g, m => m.toUpperCase());
     setHeading(heading)
+    console.log(heading);
 
     const breadcrumbsObject: { [key: string]: string } = {};
     breadcrumbsList.forEach((segment, index, array) => {
@@ -28,8 +29,8 @@ const template = ({
   }, [pathname]);
 
   return (
-    <div className="mt-24 p-10 ">
-      <div className="text-sm breadcrumbs fixed bg-base-200 left-0 pl-6 pr-3 z-30 top-16  border-r-2 border-secondary rounded-br-lg">
+    <div className="mt-24 p-8 ">
+      <div className="text-sm breadcrumbs fixed bg-base-200 left-0 pl-6 pr-3 z-30 top-16  border-r-2 border-secondary rounded-br-lg border-opacity-60">
         <ul className='flex flex-wrap shrink overflow-hidden '>
           <li><Link href="/">Home</Link></li>
           {Object.entries(breadcrumbs).map(([key, value], index, array) => (

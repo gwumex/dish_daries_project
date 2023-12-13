@@ -6,6 +6,7 @@ import { baseUrl } from '../../../shared/baseUrl';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store'; // Import the type for your root state
 import { Dish, MenuProps } from '../../type'
+import Image from 'next/image';
 
 function RenderMenuItem({ dish }: { dish: Dish }) {
   return (
@@ -13,8 +14,8 @@ function RenderMenuItem({ dish }: { dish: Dish }) {
       <Link href={`/menu/${dish._id}`}>
         <div className="card shadow-md md:max-w-sm shadow-blue-100 hover:opacity-80">
           <figure>
-            <img className="mask mt-4 " src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-              alt={dish.name} /></figure>
+            <Image className="mask mt-4 " src={dish.image}
+              alt={dish.name} height={500} width={500} /></figure>
           <div className="card-body bg-gray-200">
             <div className='flex items-center justify-start gap-x-2'>
               <h2 className="card-title text-lg">
@@ -36,7 +37,7 @@ function RenderMenuItem({ dish }: { dish: Dish }) {
   );
 }
 
-const Menu: React.FC<MenuProps> = () => {
+const Menu= () => {
   const dishes = useSelector((state: RootState) => state.dishes);
   if (dishes.isLoading) {
     return (
@@ -52,7 +53,7 @@ const Menu: React.FC<MenuProps> = () => {
     return <h4 className="text-center text-red-500">{dishes.errMess}</h4>;
   } else {
     return (
-      <div className="flex flex-wrap justify-center items-start gap-8">
+      <div className="flex flex-wrap items-start gap-8">
         {dishes.dishes.map((dish: Dish) => (
           <RenderMenuItem key={dish._id} dish={dish} />
         ))}

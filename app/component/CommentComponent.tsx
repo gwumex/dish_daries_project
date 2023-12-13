@@ -1,11 +1,13 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CommentFormProps, RenderCommentsProps } from "../type";
 import { AppDispatch, RootState } from "@/redux/store";
+import { Loading } from "./LoadingComponent";
+ import { clearCommentFormError } from "@/redux/reducers/comments-slice";
 
 export const RenderComments: React.FC<RenderCommentsProps> = ({ comments, postComment, dishId }) => (
   <div >
-    <ul className="space-y-4 overflow-y-auto h-60 md:h-96 p-4">{comments.map((comment) => (
+    <ul className="space-y-4 overflow-y-auto h-60 md:h-96 p-4 border-gray-200 border-2">{comments.map((comment) => (
       <li key={comment._id} >
         <div className="chat chat-start">
           <div className="chat-image avatar placeholder">
@@ -34,12 +36,18 @@ export const RenderComments: React.FC<RenderCommentsProps> = ({ comments, postCo
 
 export const CommentFormModal: React.FC<CommentFormProps> = ({ dishId, postComment }) => {
   const commentError = useSelector((state: RootState) => state.comments.errMess);
-  console.log(commentError);
+  const isLoading = useSelector((state: RootState) => state.comments.isLoading);
   const ratingRef = useRef<HTMLInputElement>(null);
   const commentRef = useRef<HTMLTextAreaElement>(null);
   const dispatch: AppDispatch = useDispatch();
 
+  useEffect(() => {
+  setTimeout(()=> {
+    dispatch(clearCommentFormError())
 
+  }, 5000)
+   }, [commentError])
+   
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     const radios = ratingRef.current.querySelectorAll('input[type="radio"]');
@@ -92,7 +100,7 @@ export const CommentFormModal: React.FC<CommentFormProps> = ({ dishId, postComme
                 </span>
               )}
             </div>
-            <button className="btn mt-4" type="submit">Submit</button>
+            <button className="btn mt-4" type="submit">{isLoading?<Loading/>: "Submit"}</button>
           </form>
         </div>
         <label className="modal-backdrop" htmlFor="my_modal_7">Close</label>

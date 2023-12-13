@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 function Footer() {
   return (
-<footer className="footer footer-center p-10 bg-base-200 text-base-content rounded border-t-2 border-secondary">
+<footer className="footer footer-center p-10 bg-base-200 text-base-content rounded border-t-2 border-secondary border-opacity-60">
   <nav className="grid grid-flow-col gap-4">
   <Link href="/" className="link link-hover">
     Home

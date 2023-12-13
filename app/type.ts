@@ -64,6 +64,7 @@ export interface User {
     * @usage Define type for Comment object
     */
   export interface Comment {
+     dish: string | string[];
      _id: string;
      comment: string;
      rating: number;
@@ -199,8 +200,10 @@ export interface AuthState {
   }
 
   export interface OtherState {
-    isLoginModalModalOpen: boolean
-    isSignUpModalOpen: boolean
+    isLoginModalModalOpen: boolean;
+    isSignUpModalOpen: boolean;
+    toastIsOpen:boolean;
+    toastMessage: string
 }
   export interface PromotionState {
     isLoading: boolean;

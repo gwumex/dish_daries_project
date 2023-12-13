@@ -1,7 +1,6 @@
 import React from 'react';
-import { Loading, DishesSkeletonLoading} from './LoadingComponent';
+import { DishesSkeletonLoading} from './LoadingComponent';
 import { baseUrl } from '../../shared/baseUrl';
-import './Home.css'; // Make sure this import points to the correct file path
 import HeroComponent from './HeroComponent';
 import { HomeProps, RenderCardProps } from '../type';
 

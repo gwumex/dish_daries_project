@@ -2,7 +2,6 @@
 import React from 'react';
 import Link from 'next/link';
 import { Loading } from '../../component/LoadingComponent';
-import './Contact.css'; // Make sure this import points to the correct file path
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../../../redux/store'; // Import your RootState
 import { postFeedback } from '../../../redux/actions/ActionCreators';
