@@ -27,9 +27,10 @@ const page = () => {
 
   return (
     <>
+    {/*  */}
       {auth && (
         <div className="flex flex-col items-center">
-          <div className="mb-10 ">
+          <div className="mb- ">
             {user && (
             <div className='flex flex-col gap-y-5 items-center text-left'>
               <Image src="/avatar.png" width={150} height={150} alt='profile avatar' className='rounded-full' />
