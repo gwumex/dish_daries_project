@@ -28,7 +28,7 @@ const commentsSlice = createSlice({
         addComment: (state, action) => {
             var comment = action.payload
             state.errMess = null;
-            state.comments = state.comments.concat(comment);
+            state.comments = [comment, ...state.comments];
             state.isLoading = false;
         },
         commentLoading: (state) => {

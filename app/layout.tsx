@@ -24,7 +24,7 @@ export default function RootLayout({
 
   return (
     <ReduxProvider>
-    <html lang="en" class="scroll-smooth">
+    <html lang="en" className="scroll-smooth">
       <body className={`${inter.className} min-h-full flex flex-col justify-around`}>
         <InitiateLoad/>
       <Header/>

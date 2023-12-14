@@ -12,7 +12,6 @@ const InitiateLoad = () => {
     useEffect(() => {
       dispatch(fetchPromos());
       dispatch(fetchLeaders());
-      dispatch(fetchDishes()); // Make sure to dispatch fetchDishes
       const token = localStorage.getItem('token');
       if (token) {
         dispatch(loginWithToken(token))

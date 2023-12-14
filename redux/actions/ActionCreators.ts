@@ -2,7 +2,7 @@ import { baseUrl } from '../../shared/baseUrl';
 import { addPromos, promosLoading, promosFailed } from '../reducers/promotions-slice';
 import {addLeaders, leadersLoading, leadersFailed} from '../reducers/leaders-slice'
 import {addFavourites, favouritesLoading, favouritesFailed} from '../reducers/favourites-slice'
-import {addDishes, dishesLoading, dishesFailed, addDish, dishFailed, dishLoading} from '../reducers/dishes-slice'
+import {addDishes, dishesLoading, dishesFailed, addDish, dishFailed, dishLoading, addMoreDishes, moreDishesLoading} from '../reducers/dishes-slice'
 import {addComments, addComment, commentsFailed, commentPostFailed, commentLoading} from '../reducers/comments-slice'
 import {  loginRequest,
     loginSuccess,
@@ -14,6 +14,7 @@ import { setLoginModal, setSignUpModal, setToastMessage } from '../reducers/othe
 import { handleError } from '@/app/hooks';
 import { AppDispatch } from '../store';
 import { Creds, Comment, Dish, PostDish } from '@/app/type';
+import page from '@/app/(group)/favourites/page';
 
 /***
  * @function loginWithToken
@@ -231,17 +232,14 @@ export const postDish = ({dishName, dishImage, dishCategory, dishLabel, dishPric
  * @function post dish
  */
 
-
-
 /**
  * 
  * @returns dishes list
  */
 
-export const fetchDishes = () => (dispatch : AppDispatch) => {
+export const fetchDishes = (page: number, limit: number) => (dispatch : AppDispatch) => {
     dispatch(dishesLoading(true));
-
-    return fetch(baseUrl + 'dishes')
+    return fetch(`${baseUrl}dishes?page=${page}&limit=${limit}`)
         .then(response => {
             if (response.ok) {
                 return response;
@@ -257,7 +255,33 @@ export const fetchDishes = () => (dispatch : AppDispatch) => {
             throw errmess;
         })
         .then(response => response.json())
-        .then(dishes => dispatch(addDishes(dishes)))
+        .then(dishes => {
+                 dispatch(addDishes(dishes))            
+        })
+        .catch(error => dispatch(dishesFailed(error.message)));
+}
+
+export const fetchMoreDishes = (page: number, limit: number) => (dispatch : AppDispatch) => {
+    dispatch(moreDishesLoading(true));
+    return fetch(`${baseUrl}dishes?page=${page}&limit=${limit}`)
+        .then(response => {
+            if (response.ok) {
+                return response;
+            }
+            else {
+                var error: any = new Error('Error ' + response.status + ': ' + response.statusText);
+                error.response = response;
+                throw error;
+            }
+        },
+        error => {
+            var errmess = new Error(error.message);
+            throw errmess;
+        })
+        .then(response => response.json())
+        .then(dishes => {
+            dispatch(addMoreDishes(dishes))
+        })
         .catch(error => dispatch(dishesFailed(error.message)));
 }
 /**
@@ -371,8 +395,6 @@ export const postFeedback = (feedback: any) => (dispatch: AppDispatch) => {
     .catch(error =>  { console.log('Feedback', error.message); alert('Your feedback could not be posted\nError: '+error.message); });
 };
 
-
-
 /**
  * 
  * @returns add dish to favourite list
@@ -412,7 +434,6 @@ export const postFavourite = (dishId: string) => (dispatch: AppDispatch) => {
         if(error.message === "Error 401: Unauthorized"){
             dispatch(favouritesFailed("Please Login"))
             dispatch(setToastMessage("Please Login"))
-
         }
     }
     );

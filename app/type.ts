@@ -204,7 +204,10 @@ export interface AuthState {
     isLoginModalModalOpen: boolean;
     isSignUpModalOpen: boolean;
     toastIsOpen:boolean;
-    toastMessage: string
+    toastMessage: string;
+    fetchedPages: number[];
+    currentPage: number,
+    shouldScroll: boolean
 }
   export interface PromotionState {
     isLoading: boolean;
@@ -214,7 +217,11 @@ export interface AuthState {
   export interface DishesState {
     isLoading: boolean;
     errMess: string | null,
-    dishes: Dish[] 
+    dishesDetails: {
+      dishes: Dish[];
+      total: number;
+      pages: number
+    } 
 }
   export interface CommentsState {
     isLoading: boolean;

@@ -22,10 +22,9 @@ export default function HomePage() {
   } 
 
   // Access state directly from the Redux store using typed selectors
-  const dishes = useSelector((state: RootState) => state.dishes.dishes);
+  const dishes = useSelector((state: RootState) => state.dishes.dishesDetails.dishes);
   const promotions = useSelector((state: RootState) => state.promotions.promotions);
   const leaders = useSelector((state: RootState) => state.leaders.leaders);
-  
   const dishesLoading = useSelector((state: RootState) => state.dishes.isLoading);
   const dishesErrMess = useSelector((state: RootState) => state.dishes.errMess);
   const promosLoading = useSelector((state: RootState) => state.promotions.isLoading);
