@@ -138,16 +138,16 @@ const Menu = () => {
         </div>
           <div className="join w-full flex justify-between mt-10">
             <div>
-            <button className="join-item btn-xs md:btn-lg btn  active:bg-secondary" onClick={handleFirst} disabled={currentPage === 1}>First</button>
-            <button className="join-item btn-xs md:btn-lg btn  active:bg-secondary"  onClick={handlePrevious} disabled={currentPage === 1}>Prev</button>
+            <button className="join-item btn-sm md:btn-lg btn  active:bg-secondary" onClick={handleFirst} disabled={currentPage === 1}>First</button>
+            <button className="join-item btn-sm md:btn-lg btn  active:bg-secondary ml-2"  onClick={handlePrevious} disabled={currentPage === 1}>Prev</button>
             </div>
             <div>
             <button className=" btn btn-disbled btn-xs md:btn-lg hover:animate-pulse">{currentPage} of {totalPages}</button>
 
             </div>
           <div>
-            <button className="join-item btn-xs md:btn-lg btn  active:bg-secondary" onClick={handleNext} disabled={currentPage === totalPages}>Next</button>
-            <button className="join-item btn-xs md:btn-lg btn  active:bg-secondary" onClick={handleLast} disabled={currentPage === totalPages}>Last</button>
+            <button className="join-item btn-sm md:btn-lg btn  active:bg-secondary mr-2" onClick={handleNext} disabled={currentPage === totalPages}>Next</button>
+            <button className="join-item btn-sm md:btn-lg btn  active:bg-secondary" onClick={handleLast} disabled={currentPage === totalPages}>Last</button>
           </div>
           </div>
         </div>
