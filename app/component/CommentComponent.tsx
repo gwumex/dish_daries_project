@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { CommentFormProps, RenderCommentsProps } from "../type";
 import { AppDispatch, RootState } from "@/redux/store";
 import { Loading } from "./LoadingComponent";
- import { clearCommentFormError } from "@/redux/reducers/comments-slice";
+import { clearCommentFormError } from "@/redux/reducers/comments-slice";
 
 export const RenderComments: React.FC<RenderCommentsProps> = ({ comments, postComment, dishId }) => (
   <div >
+    {comments.length > 0 &&(     
     <ul className="space-y-4 overflow-y-auto h-60 md:h-96 p-4 border-gray-200 border-2">{comments.map((comment) => (
       <li key={comment._id} >
         <div className="chat chat-start">
@@ -29,13 +30,14 @@ export const RenderComments: React.FC<RenderCommentsProps> = ({ comments, postCo
 
     ))}
     </ul>
+    )}
   </div>
-
 );
-
 
 export const CommentFormModal: React.FC<CommentFormProps> = ({ dishId, postComment }) => {
   const commentError = useSelector((state: RootState) => state.comments.errMess);
+  const comments = useSelector((state: RootState) => state.comments.comments);
+  console.log(comments);
   const isLoading = useSelector((state: RootState) => state.comments.isLoading);
   const ratingRef = useRef<HTMLInputElement>(null);
   const commentRef = useRef<HTMLTextAreaElement>(null);
@@ -44,7 +46,6 @@ export const CommentFormModal: React.FC<CommentFormProps> = ({ dishId, postComme
   useEffect(() => {
   setTimeout(()=> {
     dispatch(clearCommentFormError())
-
   }, 5000)
    }, [commentError])
    
@@ -66,8 +67,7 @@ export const CommentFormModal: React.FC<CommentFormProps> = ({ dishId, postComme
   return (
     <div>
       {/* The button to open modal */}
-      <label htmlFor="my_modal_7" className="btn mt-6">Leave a comment</label>
-
+      <label htmlFor="my_modal_7" className="btn mt-6">{comments.length > 0 ? "Leave a comment" : " Be the first to comment"}</label>
       {/* Put this part before </body> tag */}
       <input type="checkbox" id="my_modal_7" className="modal-toggle" />
       <div className="modal" role="dialog">
