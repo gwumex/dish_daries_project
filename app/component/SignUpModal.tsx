@@ -39,7 +39,7 @@ const SignUpModal = () => {
       };
   return (
 <div className={`fixed inset-0 bg-deep-blue bg-opacity-50 z-50 ${other.isSignUpModalOpen? 'flex' : 'hidden'}`} onClick={toggleModal}>
-  <div className='relative p-4 w-full max-w-md m-auto flex-col flex bg-white rounded-lg shadow-lg' onClick={(e) => e.stopPropagation()}>
+  <div className='relative p-4 w-full max-w-md m-auto flex-col flex bg-base-200 rounded-lg shadow-lg' onClick={(e) => e.stopPropagation()}>
     <div className='flex justify-between items-center border-b p-6 pb-3'>
       <h2 className="text-xl font-bold text-gray-700">Register</h2>
       <button className='text-gray-600 text-xl font-semibold' onClick={toggleModal}>

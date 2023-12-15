@@ -6,15 +6,16 @@ const nextConfig = {
         typescript: {
           ignoreBuildErrors: true,
         },
-    // images: {
-    //     remotePatterns: [
-    //       {
-    //         protocol: 'https',
-    //         hostname: 'localhost',
-    //         port: '3443',
-    //       },
-    //     ],
-    //   },
+    images: {
+        remotePatterns: [
+          {
+            protocol: 'https',
+            hostname: 'daisyui.com',
+            port: '',
+            pathname: '/images/**'
+          },
+        ],
+      },
   }
   
   module.exports = nextConfig;

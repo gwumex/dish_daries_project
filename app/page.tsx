@@ -9,17 +9,17 @@ import { Dish, Promos } from './type';
 export default function HomePage() {
 
   const value: Dish = {
-    _id: "1",
+    _id: "e6643dfgfdgr6565td56561",
     name: "test",
     image: "test",
     category: "test",
     label: "test",
     price: "test",
     featured: true,
-    description: "test",
+    description: "Featuring mouthwatering combinations with a choice of five different salads, six enticing appetizers, six main entrees and five choicest desserts. Free flowing bubbly and soft drinks. All for just $19.99 per person",
     likes: 0,
     no_of_comments: 0
-  } 
+  }
 
   // Access state directly from the Redux store using typed selectors
   const dishes = useSelector((state: RootState) => state.dishes.dishesDetails.dishes);
@@ -34,17 +34,17 @@ export default function HomePage() {
 
   return (
     < div className={`${lusitana.className} antialiased relative`}>
-    <HomeComponent
-      dish={dishes.find((dish: Dish) => dish.featured) || value}
-      dishesLoading={dishesLoading}
-      dishesErrMess={dishesErrMess}
-      promotion={promotions.find((promo: Promos) => promo.featured) || value}
-      promosLoading={promosLoading}
-      promosErrMess={promosErrMess}
-      leader={leaders.find((leader: Dish) => leader.featured) || value}
-      leaderLoading={leaderLoading}
-      leaderErrMess={leaderErrMess}
-    />
+      <HomeComponent
+        dish={dishes.find((dish: Dish) => dish.featured) || value}
+        dishesLoading={dishesLoading}
+        dishesErrMess={dishesErrMess}
+        promotion={promotions.find((promo: Promos) => promo.featured) || value}
+        promosLoading={promosLoading}
+        promosErrMess={promosErrMess}
+        leader={leaders.find((leader: Dish) => leader.featured) || value}
+        leaderLoading={leaderLoading}
+        leaderErrMess={leaderErrMess}
+      />
     </div>
   );
 }
