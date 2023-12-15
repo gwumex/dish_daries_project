@@ -96,9 +96,9 @@ const HomeComponent: React.FC<HomeProps> = ({ dish, dishesLoading, dishesErrMess
     <div >
       <HeroComponent />
       <div className="text-center relative bg-base-100">
-      <div className="py-10">
+      <div className="py-6">
         <h2 className="text-xl md:text-2xl font-semibold text-center text-primary mb-4">Featured</h2>
-        <div className=" overflow-x-auto scroll-smooth snap-x scrollbar-hide flex p-12 gap-6">
+        <div className=" overflow-x-auto scroll-smooth snap-x scrollbar-hide flex px-12 gap-6">
           <RenderCard item={dish} isLoading={dishesLoading} errMess={dishesErrMess} />
           <RenderCard item={promotion} isLoading={promosLoading} errMess={promosErrMess} />
           <RenderCard item={leader} isLoading={leaderLoading} errMess={leaderErrMess} />
