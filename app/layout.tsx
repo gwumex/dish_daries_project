@@ -28,7 +28,8 @@ export default function RootLayout({
       <body className={`${inter.className} min-h-full flex flex-col justify-around`}>
         <InitiateLoad/>
       <Header/>
-      <div className='min-h-[75vh] bg-base-100'>
+      <div className='min-h-[75vh] bg-base-100' style={{backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url(/bg1.png)', backgroundRepeat: 'no-repeat', 
+             backgroundSize: 'cover'}}>
         {children}
       </div>
       <Toast/>

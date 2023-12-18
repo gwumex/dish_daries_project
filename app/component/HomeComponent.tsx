@@ -51,8 +51,8 @@ const HomeComponent: React.FC<HomeProps> = ({ dish, dishesLoading, dishesErrMess
   return (
     <div >
       <HeroComponent />
-      <div className="text-center relative bg-base-100" style={{backgroundImage: 'url(/hero-desktop.jpg )'}}
-      >
+      <div className="text-center relative bg-base-100" 
+      style={{backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url(/bg1.png)'}}>
       <div className="py-6">
         <h2 className="text-xl md:text-2xl font-semibold text-center text-primary mb-4">Featured</h2>
         <div className=" overflow-x-auto scroll-smooth snap-x scrollbar-hide flex px-12 gap-6">
